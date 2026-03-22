@@ -615,4 +615,4 @@ Contact **gpagi@BeanOS.ai** for questions.
 
 ---
 
-*Proudly created with [Claude Code](https://claude.ai/claude-code) after many iterations and back-and-forth with humans.*
+*Proudly created with [Claude Code](https://claude.ai/claude-code) after many iterations and back-and-forth with humans. Don't be alarmed by the shallow commit history — this repo was auto-generated from an internal repository once the draft was ready to be shared.*
