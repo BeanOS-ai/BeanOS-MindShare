@@ -146,10 +146,6 @@
             <a href="#enterprise-coding-agent-platforms" class="toc-link toc-sub">Enterprise Coding Agent Platforms</a>
             <a href="#gitagent" class="toc-link toc-sub">GitAgent</a>
             <a href="#future-improvements" class="toc-link toc-sub">Future Improvements</a>
-            <a href="#security-hardening" class="toc-link toc-sub">Security Hardening</a>
-            <a href="#architectural-refinements" class="toc-link toc-sub">Architectural Refinements</a>
-            <a href="#compliance-and-governance" class="toc-link toc-sub">Compliance and Governance</a>
-            <a href="#migration-and-adoption" class="toc-link toc-sub">Migration and Adoption</a>
             <a href="#license" class="toc-link toc-sub">License</a>
         </nav>
 
@@ -730,65 +726,10 @@
 <p><a href="https://github.com/open-gitagent/gitagent">GitAgent</a> (362 stars, early stage) proposes an open standard for defining agents as git repositories: <code>agent.yaml</code> for manifest, <code>SOUL.md</code> for identity, <code>RULES.md</code> for constraints. Its compliance-first design (FINRA, SEC) validates the need for regulated, auditable agent definitions. GitAgent defines <em>how to describe individual agents</em> in git; this blueprint shares the "Agent-as-code" philosophy while shifting the focus on sessions.</p>
 <hr>
 <h2 id="future-improvements">Future Improvements</h2>
-<p>This blueprint is a living document. The following areas have been identified for future refinement based on early feedback and security review.</p>
-<h3 id="security-hardening">Security Hardening</h3>
-<ul>
-<li>
-<p><strong>Prompt injection defenses.</strong> The architecture's structural defenses — sandboxed sessions, deterministic Bus, PR review gates — provide strong containment, but the blueprint should explicitly adress prompt injection as a threat model.</p>
-</li>
-<li>
-<p><strong>Company Bus integrity.</strong> The Bus is the single highest-value target in the architecture. This is top of mind.</p>
-</li>
-<li>
-<p><strong>Credential rotation and per-tier scoping.</strong></p>
-</li>
-<li>
-<p><strong>Log integrity.</strong> Audit logs should be written to an append-only, tamper-evident store separate from the Bus. The Bus writes logs but cannot modify or delete entries. Initial thoughts: Cryptographic verification (hash chaining or write-once cloud storage with retention locks) ensures post-compromise forensics are reliable.</p>
-</li>
-<li>
-<p><strong>DNS restrictions.</strong> Containers should use a company-controlled DNS resolver that only resolves allowlisted domains, closing DNS tunneling as a potential exfiltration vector.</p>
-</li>
-<li>
-<p><strong>Revocation semantics.</strong> When a participant's access is revoked mid-session, active sessions should be terminated immediately. The Bus should maintain a revocation list checked on every API call, not only at session creation.</p>
-</li>
-</ul>
-<h3 id="architectural-refinements">Architectural Refinements</h3>
-<ul>
-<li>
-<p><strong>Convergence checks.</strong> The blueprint mentions convergence detection but does not define it concretely. A future version will specify: a session that has not committed meaningful state changes (PR opened, issue updated, work log entry) within N turns is considered non-converging and is terminated.</p>
-</li>
-<li>
-<p><strong>Announcement trust.</strong> Announcements enable cross-session coordination but also create an inter-session influence vector. Receiving sessions should treat announcements as untrusted input, and high-impact announcements (e.g., infrastructure changes) should require Bus-level verification.</p>
-</li>
-<li>
-<p><strong>AI provider resilience.</strong> The current architecture has a single-provider dependency. Future versions will address multi-provider failover at the Bus layer, model version pinning (upgrades as PR-reviewed changes), and degradation modes when the AI provider is unavailable.</p>
-</li>
-<li>
-<p><strong>Git scaling.</strong> At scale (50+ concurrent agents), git merge conflicts and PR review backlogs become bottlenecks. Future work will explore optimistic concurrency models where agents act on low-risk items and humans revert rather than approve, as well as sharding strategies for the repo model.</p>
-</li>
-<li>
-<p><strong>Read isolation within trust tiers.</strong> CODEOWNERS protects writes, but within a single tier, sessions can read all data. Future versions may introduce sub-tier read scoping — a session initiated by Alice should not automatically load Bob's personal folder into context.</p>
-</li>
-</ul>
-<h3 id="compliance-and-governance">Compliance and Governance</h3>
-<ul>
-<li>
-<p><strong>Data classification.</strong> Trust tiers define access boundaries but not data sensitivity. Future versions will add a classification scheme (PII, financial, trade secrets) with Bus-enforced controls — for example, PII cannot appear in PR descriptions or be included in AI provider prompts without additional safeguards.</p>
-</li>
-<li>
-<p><strong>Incident response.</strong> Beyond the Big Red Button emergency stop, the blueprint needs a formal incident response process: investigation procedures leveraging the audit trail, notification workflows (as required by GDPR/CCPA), evidence preservation, and post-mortem templates.</p>
-</li>
-<li>
-<p><strong>Data processing agreements.</strong> If the AI provider processes company data via prompts, regulations like GDPR require a DPA. The blueprint should recommend provider selection criteria and support for a "no-PII" session mode that strips classified data before sending prompts.</p>
-</li>
-<li>
-<p><strong>Regulatory AI compliance.</strong> Emerging regulations (EU AI Act, US executive orders) may impose requirements on AI systems making consequential decisions. The audit trail and session logs provide the explainability foundation; future versions will map these to specific regulatory requirements.</p>
-</li>
-</ul>
-<h3 id="migration-and-adoption">Migration and Adoption</h3>
-<ul>
-<li><strong>Migration path for existing companies.</strong> The blueprint describes a greenfield architecture. A future companion document will address how to retrofit the pattern into existing organizations incrementally — starting with a single function (e.g., engineering), establishing the Bus and repo model, and expanding outward.</li>
-</ul>
+<p>This blueprint is a living document. The following areas are not fully addressed but are top of mind.</p>
+<p><strong>Security hardening</strong> — Prompt injection deserves explicit treatment as a threat model, even though the architecture's structural defenses (sandboxed sessions, deterministic Bus, PR review gates) provide strong containment. Other open areas: Bus integrity monitoring, credential rotation and per-tier scoping, append-only tamper-evident audit logs, DNS restrictions to close tunneling vectors, and real-time revocation of mid-session access.</p>
+<p><strong>Architectural refinements</strong> — Convergence detection (when to stop a spiraling session), announcement trust (preventing cross-session influence via broadcast), and git scaling at 50+ concurrent sessions where merge conflicts and review backlogs become bottlenecks.</p>
+<p><strong>Compliance and governance</strong> — Data classification within trust tiers, formal incident response beyond the Big Red Button, data processing agreements with AI providers, and alignment with emerging AI regulations (EU AI Act, US executive orders).</p>
 <hr>
 <h2 id="license">License</h2>
 <p>© 2026 Gilad Pagi Ph.D.</p>
