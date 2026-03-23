@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The AI-Native Company Blueprint — BeanOS</title>
+    <meta name="description" content="An operating system for running a company on AI as the underlying infrastructure. By Gilad Pagi.">
+    <meta name="author" content="Gilad Pagi">
+
+    <!-- OpenGraph -->
+    <meta property="og:title" content="The AI-Native Company Blueprint">
+    <meta property="og:description" content="An operating system for running a company on AI as the underlying infrastructure.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://beanos.ai">
+    <meta property="og:site_name" content="BeanOS">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="The AI-Native Company Blueprint">
+    <meta name="twitter:description" content="An operating system for running a company on AI as the underlying infrastructure.">
+
+    <!-- Security -->
+    <meta http-equiv="Content-Security-Policy"
+          content="default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'none'; frame-ancestors 'none'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests;">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- WIP Banner -->
+    <div class="wip-banner">
+        ⚠ Work in Progress — This is an early draft shared for feedback. <a href="https://github.com/BeanOS-ai/BeanOS-MindShare/issues" target="_blank" rel="noopener">Share your thoughts →</a>
+        · For LLM ingestion, point your agent to the <a href="https://raw.githubusercontent.com/BeanOS-ai/BeanOS-MindShare/main/blueprint.md" target="_blank" rel="noopener">pure markdown</a>.
+    </div>
+
+    <div class="page-layout">
+
+        <!-- ════════════════════════ SIDEBAR ════════════════════════ -->
+        <nav class="sidebar" id="sidebar" aria-label="Table of contents">
+            <div class="sidebar-brand">
+                <a href="#top" class="sidebar-brand-name">BeanOS.ai</a>
+                <div class="sidebar-brand-sub">AI-Native Company Blueprint</div>
+            </div>
+
+            <a href="#the-ai-native-company-blueprint" class="toc-link">The AI-Native Company Blueprint</a>
+            <a href="#tldr--executive-summary" class="toc-link toc-sub">TL;DR / Executive Summary</a>
+            <a href="#what-this-is" class="toc-link toc-sub">What This Is</a>
+            <div class="toc-divider"></div>
+            <div class="toc-section-label">Part I — Principles</div>
+            <a href="#principle-1-unified-versioned-state" class="toc-link toc-sub">1. Unified, versioned state</a>
+            <a href="#principle-2-all-actions-must-be-programmable" class="toc-link toc-sub">2. All actions must be programmable</a>
+            <a href="#principle-3-gui-is-a-view-layer-built-on-top-of-apis" class="toc-link toc-sub">3. GUI is a view layer, built on top of APIs</a>
+            <a href="#principle-4-agents-as-organizational-infrastructure" class="toc-link toc-sub">4. Agents as organizational infrastructure</a>
+            <a href="#principle-5-trust-tiers-define-the-companys-permission-structure" class="toc-link toc-sub">5. Trust tiers define the company's permission structure</a>
+            <a href="#principle-6-the-session-is-the-atomic-unit-of-ai-interaction" class="toc-link toc-sub">6. The session is the atomic unit of AI interaction</a>
+            <a href="#principle-7-human-accountability-over-company-state" class="toc-link toc-sub">7. Human accountability over company state</a>
+            <a href="#principle-8-everything-is-auditable-and-replayable" class="toc-link toc-sub">8. Everything is auditable and replayable</a>
+            <a href="#principle-9-structured-work-management-as-the-engine-of-progress" class="toc-link toc-sub">9. Structured work management as the engine of progress</a>
+            <a href="#principle-10-sessions-are-sandboxed-and-ephemeral" class="toc-link toc-sub">10. Sessions are sandboxed and ephemeral</a>
+            <a href="#the-architecture" class="toc-link toc-sub">The Architecture</a>
+            <div class="toc-divider"></div>
+            <div class="toc-section-label">Part I — Principles</div>
+            <a href="#ii1-the-state-store-three-repos-and-cloud-data" class="toc-link toc-sub">II.1 The State Store: Three Repos and Cloud Data</a>
+            <a href="#object-storage-immutable-blobs-by-reference" class="toc-link toc-sub">Object Storage: Immutable Blobs by Reference</a>
+            <a href="#ii2-the-company-bus-and-cli-first-apis" class="toc-link toc-sub">II.2 The Company Bus and CLI-First APIs</a>
+            <a href="#the-company-bus" class="toc-link toc-sub">The Company Bus</a>
+            <a href="#cli-first" class="toc-link toc-sub">CLI-First</a>
+            <a href="#ii3-three-repos-three-agents" class="toc-link toc-sub">II.3 Three Repos, Three Agents</a>
+            <a href="#a-three-repo-model" class="toc-link toc-sub">A Three-Repo Model</a>
+            <a href="#one-trust-boundary-per-repo" class="toc-link toc-sub">One Trust Boundary Per Repo</a>
+            <a href="#personal-folders" class="toc-link toc-sub">Personal Folders</a>
+            <a href="#the-permission-dag" class="toc-link toc-sub">The Permission DAG</a>
+            <a href="#ii4-sessions-sandboxing-scope-and-initiation" class="toc-link toc-sub">II.4 Sessions: Sandboxing, Scope, and Initiation</a>
+            <a href="#container-isolation" class="toc-link toc-sub">Container Isolation</a>
+            <a href="#conversation-participants-and-credential-scope" class="toc-link toc-sub">Conversation Participants and Credential Scope</a>
+            <a href="#how-sessions-are-initiated" class="toc-link toc-sub">How Sessions Are Initiated</a>
+            <a href="#human-in-the-loop-approvals" class="toc-link toc-sub">Human-in-the-Loop Approvals</a>
+            <a href="#conversation-persistence-and-resume" class="toc-link toc-sub">Conversation Persistence and Resume</a>
+            <a href="#ii5-human-accountability-the-pr-model" class="toc-link toc-sub">II.5 Human Accountability: The PR Model</a>
+            <a href="#the-pr-is-the-unit-of-work" class="toc-link toc-sub">The PR Is the Unit of Work</a>
+            <a href="#the-big-red-button" class="toc-link toc-sub">The Big Red Button</a>
+            <a href="#ii6-audit-trail" class="toc-link toc-sub">II.6 Audit Trail</a>
+            <a href="#ii7-issue-tracking-and-cron-the-work-engine" class="toc-link toc-sub">II.7 Issue Tracking and Cron: The Work Engine</a>
+            <a href="#issue-tracking-repo-for-definitions-db-for-instances" class="toc-link toc-sub">Issue Tracking: Repo for Definitions, DB for Instances</a>
+            <a href="#cron-jobs" class="toc-link toc-sub">Cron Jobs</a>
+            <a href="#announcements-channel" class="toc-link toc-sub">Announcements Channel</a>
+            <a href="#ii8-supporting-concerns" class="toc-link toc-sub">II.8 Supporting Concerns</a>
+            <a href="#security-and-compliance" class="toc-link toc-sub">Security and Compliance</a>
+            <a href="#cicd-and-deployment" class="toc-link toc-sub">CI/CD and Deployment</a>
+            <a href="#onboarding" class="toc-link toc-sub">Onboarding</a>
+            <a href="#portability-and-vendor-independence" class="toc-link toc-sub">Portability and Vendor Independence</a>
+            <a href="#backup-and-disaster-recovery" class="toc-link toc-sub">Backup and Disaster Recovery</a>
+            <a href="#operating-norm-see-something-say-something" class="toc-link toc-sub">Operating Norm: See Something, Say Something</a>
+            <a href="#high-churn-data-flood-valve" class="toc-link toc-sub">High-Churn Data Flood Valve</a>
+            <a href="#ii9-operational-health" class="toc-link toc-sub">II.9 Operational Health</a>
+            <a href="#health-check-categories" class="toc-link toc-sub">Health Check Categories</a>
+            <a href="#implementation" class="toc-link toc-sub">Implementation</a>
+            <a href="#the-assertion-as-the-unit-of-operational-tdd" class="toc-link toc-sub">The Assertion as the Unit of Operational TDD</a>
+            <div class="toc-divider"></div>
+            <a href="#frequently-asked-questions" class="toc-link">Frequently Asked Questions</a>
+            <div class="toc-divider"></div>
+            <a href="#the-company-as-an-operating-system" class="toc-link">The Company as an Operating System</a>
+            <a href="#concept-map" class="toc-link toc-sub">Concept Map</a>
+            <a href="#the-deepest-parallel-kernel-space-vs-user-space" class="toc-link toc-sub">The Deepest Parallel: Kernel Space vs. User Space</a>
+            <a href="#the-scheduler-parallel-from-time-sharing-to-work-sharing" class="toc-link toc-sub">The Scheduler Parallel: From Time-Sharing to Work-Sharing</a>
+            <a href="#appendix-a-prior-art--related-work" class="toc-link toc-sub">Appendix A: Prior Art &amp; Related Work</a>
+            <a href="#the-llm-os-metaphor" class="toc-link toc-sub">The LLM OS Metaphor</a>
+            <a href="#aios-llm-agent-operating-system" class="toc-link toc-sub">AIOS: LLM Agent Operating System</a>
+            <a href="#enterprise-coding-agent-platforms" class="toc-link toc-sub">Enterprise Coding Agent Platforms</a>
+            <a href="#gitagent" class="toc-link toc-sub">GitAgent</a>
+            <a href="#license" class="toc-link toc-sub">License</a>
+        </nav>
+
+        <!-- Overlay for mobile sidebar -->
+        <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+        <!-- ════════════════════════ MAIN CONTENT ════════════════════════ -->
+        <main class="main-content">
+            <div class="content-column" id="top">
+
+                <!-- Article Header -->
+                <header class="article-header">
+                    <h1>The AI-Native Company Blueprint</h1>
+                    <p class="article-subtitle">An operating system for running a company on AI as the underlying infrastructure.</p>
+                    <div class="article-meta">
+                        <span class="author-name"><a href="https://gpgroupcompany.com/cv.html" target="_blank" rel="noopener">Gilad Pagi</a></span>
+                        <span class="meta-dot">·</span>
+                        <span>March 2026</span>
+                        <span class="meta-dot">·</span>
+                        <span class="article-version">v0.3</span>
+                    </div>
+                    <div class="author-box">
+                        <div class="author-box-label">About the Author</div>
+                        <div class="author-box-text">Ex-Google Staff Engineer · Math PhD, University of Michigan</div>
+                    </div>
+                </header>
+
+                <blockquote>
+<p><strong>Work in Progress</strong> — This is an early draft shared for feedback. Comments and discussion welcome via <a href="https://github.com/BeanOS-ai/BeanOS-MindShare/issues">GitHub Issues</a> or <a href="https://www.linkedin.com/in/giladpagi/">LinkedIn</a>.</p>
+</blockquote>
+<h2 id="tldr--executive-summary">TL;DR / Executive Summary</h2>
+<p>A set of principles and an implementation walkthrough for building an AI-native company from the ground up — freeing humans to review work, steer, and make decisions rather than running low-level actions. The core principles: the company is defined by its version-controlled data and code; all company systems expose an API; a unified deterministic layer (the Company Bus / Company Kernel) mediates all API access, permission control, security, and audit logging; sandboxed AI sessions call through this layer for any action with side effects; and a task management mechanism progresses the company forward while halting when the human review backlog grows too large.</p>
+<p>For technical readers: this operating model gives rise to the company as an operating system. The company has a kernel for all privileged APIs, creating an elegant separation of kernel-space vs. user-space actions. AI sessions are user-space sandboxed processes sending system calls to the company kernel for any action that affects the company.</p>
+<blockquote>
+<p><em>Note: This text reflects the author's perspective, informed by experience and early results. Implementing AI in business settings is still new and evolving, and must be approached with humility and a commitment to continuous learning.</em></p>
+</blockquote>
+<h2 id="what-this-is">What This Is</h2>
+<p>This document describes an operating model for a company where AI agents do the work and humans make decisions. It is not about using AI to assist employees — it is about building the company so that AI operate it, and humans steer.</p>
+<blockquote>
+<p><em>"Every company in the world today needs to have an OpenClaw strategy, an agentic system strategy. This is the new computer. This is as big of a deal as HTML, as big of a deal as Linux."</em>
+— Jensen Huang, NVIDIA CEO, GTC 2026 (March 17, 2026)</p>
+</blockquote>
+<p>The document is organized in two parts. <strong>Part I</strong> establishes the foundational principles — tool-agnostic and durable. <strong>Part II</strong> presents one opinionated implementation of those principles, with specific technology choices and design decisions. The principles stand on their own; the implementation is one way to realize them.</p>
+<p>We then explore how this operating model maps elegantly onto the architecture of an operating system — a more conceptual section that can inform how we think about building and evolving AI-native organizations.</p>
+<hr>
+<h1 id="part-i-principles">Part I: Principles</h1>
+<h2 id="principle-1-unified-versioned-state">Principle 1: Unified, versioned state</h2>
+<p>A traditional company's state is scattered across email threads, chat messages, Docs, PDFs, spreadsheets, tickets, people's heads, databases, and local machines. AI can only work on data it has access to. The variety of sources makes retrieval inefficient and access management hard.</p>
+<p>The company's state must live in a single, accessible, version-controlled system. No tribal knowledge, no scattered silos. Data may be unstructured (prose, attachments) or structured (YAML, tables) — the more structured, the more efficiently agents can operate on it. Every piece of data that may drive action or decision must be captured here: versioned, attributed, and reviewable.</p>
+<blockquote>
+<p><strong>Example we like — GitLab's handbook-first culture.</strong> GitLab runs their company via a <a href="https://about.gitlab.com/handbook/">version-controlled handbook</a>: every policy, process, org structure, and decision lives in git. The discipline is enforced culturally: no decision is complete until it is documented there. For AI agents, this is an exemplar of Principle 1 (P1, hereafter) — a queryable, attributable, always-current source of company truth. GitLab's internal version is almost certainly richer still.</p>
+</blockquote>
+<h2 id="principle-2-all-actions-must-be-programmable">Principle 2: All actions must be programmable</h2>
+<p>Every action — creating, updating, sharing, transacting, filling out forms — must be executable via a programmatic interface. This is not about replacing humans; it is about ensuring agents are never blocked by a UI-only path.</p>
+<blockquote>
+<p><strong>Example we like — Google's internal developer tooling.</strong> Every internal system at Google is reachable from the command line: either a purpose-built high-level CLI, or — where one doesn't exist — a generic tool that accepts a text-encoded protobuf and fires it as an RPC to an internal endpoint. No action requires a browser. And because the proto definitions live in the same monorepo as the services, the entire API surface is self-documenting and version-controlled — an agent can read the schema and know exactly what to send. An agent navigating Google's internal infrastructure has a complete programmatic surface for everything, with no UI-only dead ends. This is what P2 looks like at scale.</p>
+</blockquote>
+<h2 id="principle-3-gui-is-a-view-layer-built-on-top-of-apis">Principle 3: GUI is a view layer, built on top of APIs</h2>
+<p>Graphical interfaces sit above the API layer and never touch data directly. They call the same APIs that agents call. This means humans and agents always have a consistent view of the data — there is no "human version" of the truth that differs from what agents see.</p>
+<p>GUI is for human consumption and collaboration. It renders data; it does not define it. For most analytical and operational use cases — "what is the state of the company?", "what happened last week?", "what needs my attention?" — the agent is a better interface than any static dashboard: it answers any question, at any level of detail, from the same underlying state. Dashboards are a convenience for at-a-glance monitoring; they are not a structural requirement. Plus, they can be generated on demand by agents.</p>
+<blockquote>
+<p><strong>Example we like — Grafana + Prometheus.</strong> Every Grafana panel is a saved PromQL query. Prometheus exposes its full query surface as an HTTP API — the same one Grafana calls. An agent can answer any question a dashboard can answer, because it has identical access. The GUI adds nothing to the data; it only renders a pre-selected slice of it.</p>
+</blockquote>
+<h2 id="principle-4-agents-as-organizational-infrastructure">Principle 4: Agents as organizational infrastructure</h2>
+<p>Agents are not personal assistants — they are organizational infrastructure, defined by code like any other system component. Think Infrastructure as Code, but for agents: their behavior, knowledge, memory, and mandates are declared in versioned configuration and code. There is no private agent state outside the company data — no AI tribal knowledge. Personalization is achieved by focusing on the relevant portion of company state — there is no out-of-band customization.</p>
+<p>Agents operate the company: they initiate work, produce artifacts, and act within their mandate. Humans steer: they set direction, review outputs, and approve consequential actions. Agents may adapt their behavior based on audience or context, but that adaptation is driven by data in the repo, not hidden internal state.</p>
+<blockquote>
+<p><strong>Example we like — Claude Code.</strong> Claude Code anchors on a repo you choose. <code>CLAUDE.md</code> files carry versioned knowledge and instructions that shape every session. Memory can be configured to write into the repo itself (<code>autoMemoryDirectory</code>, recently supported), making agent learning a first-class git artifact. The hooks system lets sessions update company state on every significant action — session start, tool call, session end — bridging the gap between ephemeral sessions and persistent organizational memory. Two things we'd ask of the Claude Code team: (1) a first-class data structure to represent the session, so it can be stored remotely and resumed from any machine (hooks get us most of the way there already), and (2) support for <code>autoMemoryDirectory</code> in <code>settings.json</code>, not just <code>settings.local.json</code>.</p>
+</blockquote>
+<p>This principle may not be popular with AI-fluent employees who already have a supercharged setup — albeit a local one. But an AI-native company cannot accept outcomes generated from hidden knowledge, memory, or skills. These capabilities must be company assets, shared across everyone.</p>
+<h2 id="principle-5-trust-tiers-define-the-companys-permission-structure">Principle 5: Trust tiers define the company's permission structure</h2>
+<p>Since the company is its data, access to that data defines organizational trust. The company is partitioned into trust tiers — groups of data with different read permissions. These tiers are declared and version-controlled as part of the company's state.</p>
+<p>Read permissions determine what agents and humans can see. Write permissions are the mechanism for approving changes — you can only merge changes into data you are authorized to govern. Write permissions may be configured to allow agents to commit changes autonomously in areas where full delegation is acceptable, or review is done after the fact.</p>
+<blockquote>
+<p><strong>Example we like — GitHub branch protection + CODEOWNERS, managed as IaC.</strong> GitHub's branch protection rules and <code>CODEOWNERS</code> files implement write-as-merge-authority cleanly: only the declared owners of a path can approve changes to it. The tools to extend this across the full permission surface exist and are standard — Terraform has a GitHub provider, and every major cloud has IaC for IAM (GCP IAM, AWS IAM, etc.). The missing discipline is wiring them together: a single identity declaration in the repo that drives GitHub permissions, DB access, and storage policies simultaneously.</p>
+</blockquote>
+<h2 id="principle-6-the-session-is-the-atomic-unit-of-ai-interaction">Principle 6: The session is the atomic unit of AI interaction</h2>
+<p>Every AI interaction is a session. A session's scope is defined by a set of read permission groups it assumes — set at creation and immutable for the lifetime of the session. Read access is the single source of truth: it determines what data the agent can process, what APIs it can call, where outputs are written, who can see logs, and what the agent can commit to company state. All access parameters derive from read permissions — nothing is specified separately.</p>
+<p>There are no persistent agent identities — only session identities. The agent is stateless between sessions; all identity and authorization lives in the session.</p>
+<p><strong>What is an "agent"?</strong> An agent is simply a session type — a label for sessions that share the same read permission group. If the company's read permission groups are nested (like security clearance), then each group defines one agent type. The word "agent" is a convenient shorthand, not a distinct entity. In practice, the only question that matters for any given session is: <em>what read permission group is this session running under?</em> Everything else — what it can see, call, write, and log — derives from the answer.</p>
+<p>When humans initiate an interactive session, the session scope is the intersection of all participants' read permission groups. Scope is immutable — participants cannot be added mid-session, only removed. Autonomous sessions assume a fixed scope defined in the repo.</p>
+<h2 id="principle-7-human-accountability-over-company-state">Principle 7: Human accountability over company state</h2>
+<p>Agents produce work faster than humans can review it. The system is designed so humans remain accountable for what enters company state — not by forcing review of everything, but by making the review burden manageable.</p>
+<p>Write permissions are configurable: some parts of the company state may be fully delegated to agents (no human review required), others require human approval. This delegation is explicit, versioned, and a conscious choice by the humans who govern that data.</p>
+<p>When agent output exceeds human review capacity, autonomous work pauses. The goal is not to minimize human review — it is to keep state transitions realistically reviewable, so accountability remains meaningful rather than nominal.</p>
+<h2 id="principle-8-everything-is-auditable-and-replayable">Principle 8: Everything is auditable and replayable</h2>
+<p>Every action, state transition, credential use, and session is logged with full attribution — who or what did it, in which session, under which permission scope, and when. The audit trail is a first-class output of the system, not an afterthought.</p>
+<p>Session logs are first-class company data — high-churn by nature, stored in the transactional layer alongside issues and work logs. They enable full replay of past sessions, post-mortems, and — critically — automated self-correction: future sessions can learn from past ones, evolving agent behavior without human intervention beyond approving the resulting changes.</p>
+<p>Because all actions flow through a programmable layer and all state lives in versioned storage, comprehensive auditability is a natural consequence of the architecture, not extra instrumentation.</p>
+<blockquote>
+<p><strong>Example we like — LangSmith.</strong> LangSmith traces every LLM call and tool invocation in a session: inputs, outputs, latency, token counts, and the full call tree. Traces are queryable via API, enabling automated evaluation and regression testing against past sessions. This is P8 for the AI layer specifically — and the right mental model for what the full audit trail should look like across all layers of the company.</p>
+</blockquote>
+<h2 id="principle-9-structured-work-management-as-the-engine-of-progress">Principle 9: Structured work management as the engine of progress</h2>
+<p>An AI-native company needs a unified, programmable work management system — not just for coordination, but as the primary mechanism for advancing company state. It generates tasks on cadence or external triggers, tracks work in progress, captures work logs, and expresses dependencies and relationships between units of work.</p>
+<p>This system is the engine: it is how the company moves forward autonomously without constant human prompting. Humans use it to review what happened and what is in flight. Agents use it to claim work, log progress, and trigger downstream tasks.</p>
+<p>The system must be fully API-accessible. The specific form is an implementation choice.</p>
+<p>Health is part of the engine. The work management system continuously asserts that the company is operating within healthy bounds — services are up, state matches declarations, queues are draining, SLAs are met. When an assertion fails, it generates work: an issue is created, a circuit breaker trips, or an alert is raised. Health checks are not a separate monitoring layer; they are first-class work items that flow through the same system as everything else.</p>
+<blockquote>
+<p><strong>Example we like — Linear.</strong> Linear is built API-first: every issue, project, and workflow state is accessible programmatically. They have invested in a first-class Agent SDK, treating agents as a distinct interaction surface rather than bolting on API access as an afterthought. Issues can trigger sessions; sessions update issue state as they progress. It is the closest existing product to what P9 describes — a work management system that is also an execution engine.</p>
+</blockquote>
+<h2 id="principle-10-sessions-are-sandboxed-and-ephemeral">Principle 10: Sessions are sandboxed and ephemeral</h2>
+<p>Every session runs in an isolated container. The container is provisioned with the company's current state (a checkout of the relevant repo) and can interact with the outside world only through the Company Bus APIs. Inside the container, the session can do whatever it needs — run code, write files, spin up processes — without risk of affecting anything outside.</p>
+<p>When the session ends, the container is scrapped. Nothing persists on it. Any output that matters must have been committed to company state (via a PR or a DB transaction) before the session concluded — otherwise it is gone.</p>
+<p>Session resume is supported: a fresh container is provisioned, the prior conversation is loaded as context, and the session picks up from the current repo state. The container is still new; only the conversation history carries over.</p>
+<p><strong>Sessions must never run on end devices.</strong> A session running on a human's laptop has access to that person's local files, credentials, browser, and network — none of which are governed by the session's trust scope. End-device sessions break the sandboxing guarantee, create audit gaps, and are a hard no. End devices belong to the UI Views layer — they are the means by which humans review and interact with company state, not the environment in which sessions run.</p>
+<blockquote>
+<p><strong>Example we like — Claude Code in ephemeral containers (+ NemoClaw on the horizon).</strong> Our current implementation of choice is Claude Code running in an ephemeral container: settings allow configuring auth and project context at session start, and remote-control means sessions can be observed and interacted with on the go. <a href="https://nemoclaw.run/">NemoClaw</a> is a notable emerging alternative: kernel-level sandboxing, default-deny networking with per-connection approval, and a full audit trail out of the box.</p>
+</blockquote>
+<hr>
+<h2 id="the-architecture">The Architecture</h2>
+<p>The diagram below shows the conceptual layers. Arrows show the direction of interaction — humans initiate sessions and UI views; both are gated by the trust layer; actions execute against the API layer; all changes land in company state.</p>
+<img src="architecture_diagram.svg" alt="Architecture diagram: Humans → Sessions / UI Views → Trust Layer → Programmable APIs → Company State" class="arch-diagram" style="width:100%;max-width:680px;display:block;margin:24px auto;">
+<p><em>Sessions and UI Views are peer interaction modes — both feed into the trust layer, which gates all access to the API and state layers. Work management data lives inside company state, not as a separate layer — it is the engine that drives the company forward from within.</em></p>
+<hr>
+<h1 id="part-ii-opinionated-implementation">Part II: Opinionated Implementation</h1>
+<p>The following sections describe one concrete way to implement the principles above. Technology choices are specific but not mandatory — what matters is satisfying the principles, not replicating these choices exactly. It is given as a concrete example, albeit hypothetical (for now).</p>
+<h2 id="ii1-the-state-store-three-repos-and-cloud-data">II.1 The State Store: Three Repos and Cloud Data</h2>
+<p><em>(Implements Principle 1)</em></p>
+<p><strong>The entire company state is defined by two things: git repos and cloud data.</strong></p>
+<ul>
+<li>All knowledge, configuration, workflows, playbooks, schedules, and agent memory live in git repos as markdown, code, and structured text files (JSONL, YAML). Same for data on employees, finances, and roadmaps. In cases where external software is needed due to compliance or standard (e.g. QuickBooks for accounting), a mirror is created in the repo with a syncing mechanism.</li>
+<li>Data that cannot live in repos — customer records, binary assets, large datasets, high-churn items like bugs and tasks — lives in cloud storage and databases with transactional semantics and audit trails.</li>
+<li>Documents produced for human consumption (PDFs, slides, dashboards, rendered HTML) are outputs, never sources of truth, and are not considered part of the state.</li>
+<li><strong>Email and chat are not state.</strong> They are means to transfer information in flight. Any information that matters must be materialized into a PR or a database transaction. Emails and chat messages are TTL'd and may be kept for archival purposes, but they are never the source of truth for anything.</li>
+<li>Human laptops are ephemeral. Nothing material exists on a local machine that isn't in a repo or cloud storage. If a laptop is lost, nothing is lost.</li>
+</ul>
+<p>Every change to the company's state flows through a pull request or a logged database transaction. There are no back-channel changes, no "I'll update the doc later," no tribal knowledge that exists only in someone's head or buried in an email thread.</p>
+<p><strong>Live infrastructure converges to the repo.</strong> Every service polls the main branch on a regular schedule (e.g., every 5 minutes), pulls the latest state, syncs dependencies, and restarts on changes. This means running infrastructure stays in sync with the repo automatically — there is no manual deploy step and no configuration drift. Any change to infrastructure, agent behavior, or system configuration goes through a PR to main, and running services pick it up within minutes. Services that fail to self-update surface as anomalies in telemetry.</p>
+<blockquote>
+<p><strong>Why repos?</strong> Because git gives you versioning, branching, diffing, attribution, and review (PRs) for free. These are exactly the properties you need when agents are making changes autonomously — every change is traceable, reviewable, and reversible. Repos are kept linear with a single main branch. Any other branch is considered ephemeral and not part of the state.</p>
+</blockquote>
+<h3 id="object-storage-immutable-blobs-by-reference">Object Storage: Immutable Blobs by Reference</h3>
+<p>Binary assets, rendered outputs, and large generated artifacts (PDFs, images, compiled binaries, model weights) cannot live in git. They live in <strong>object storage</strong> — a separate tier governed by two hard constraints:</p>
+<ol>
+<li><strong>Append-only.</strong> Objects are never overwritten in place. Every write produces a new object with a new content-addressed key. An existing object, once written, is immutable for its lifetime.</li>
+<li><strong>Referenced by the repo.</strong> The repo holds the pointer, not the blob. A repo file contains the object's key or URL; the object is never embedded in the repo directly. Changing what a pointer points to requires a code change — which goes through a PR, gets reviewed, and lands in the audit trail like everything else.</li>
+</ol>
+<p>Together, these two constraints mean a session can only <em>add</em> objects — it can never silently replace something a previous session wrote. Updating a generated artifact (e.g., replacing last week's report PDF) requires a PR that updates the pointer. The old object remains intact until its TTL expires.</p>
+<p><strong>TTL and lifecycle.</strong> Objects are assigned a TTL at write time based on their type — ephemeral outputs (decision pages, draft attachments) get short TTLs; canonical artifacts (signed contracts, compliance exports) get long ones. Expired objects are garbage-collected automatically. TTL policy is declared in the repo alongside the code that produces the objects.</p>
+<p>This design makes object storage safe for autonomous agent use: a session can produce and publish artifacts freely without the risk of corrupting shared state. The worst a misbehaving session can do is create new objects; it cannot modify or delete existing ones.</p>
+<h2 id="ii2-the-company-bus-and-cli-first-apis">II.2 The Company Bus and CLI-First APIs</h2>
+<p><em>(Implements Principles 2, 3, and 10)</em></p>
+<h3 id="the-company-bus">The Company Bus</h3>
+<p>The foundation of the API layer is the <strong>Company Bus</strong> — a distributed server that owns all API integrations and all credentials. It is a fully deterministic classical service: <strong>no LLM code, no non-deterministic logic, ever.</strong> Every call to an external system (email, calendar, CRM, cloud APIs, internal databases) goes through it. Being distributed, it scales horizontally and has no single point of failure — a requirement given that every session in the company depends on it.</p>
+<p>Keeping the Bus deterministic is a hard architectural constraint. Scheduled jobs that require AI judgment are dispatched as messages to ephemeral session containers, which run them as autonomous sessions. The Bus is the scheduler and dispatcher; session containers are the workers. This separation keeps the Bus auditable, predictable, and easy to reason about — and ensures credentials and non-deterministic code never coexist in the same process.</p>
+<p><strong>Credentials never leave the Company Bus.</strong> All API keys, OAuth tokens, and service account credentials live in a vault managed by the Bus. Sessions never see raw secrets. When a session makes an API call, the Bus checks the session's trust group against the credential's permission requirements — and either executes the call on the session's behalf or denies it. The session never knows the key exists; it only knows whether the call succeeded.</p>
+<p>This gives the Bus a natural role as the company's security and governance layer:</p>
+<ul>
+<li><strong>Access control</strong> — calls are allowed or denied based on the session's trust tier and participant list.</li>
+<li><strong>Audit logging</strong> — every API call is logged with the session ID, participant list, timestamp, and result.</li>
+<li><strong>Rate limiting and heuristics</strong> — the Bus can enforce per-session call budgets, detect anomalous patterns, and trip circuit breakers without any changes to session code.</li>
+<li><strong>Incremental observability</strong> — the simplest Bus implementation just passes calls through and logs them. A mature implementation adds layers of enforcement — token budgets, cost ceilings, hard rate limits per resource — incrementally, without changing how sessions work.</li>
+</ul>
+<h3 id="cli-first">CLI-First</h3>
+<p>On top of the Company Bus, the implementation adopts a <strong>CLI-first</strong> approach: every API capability is exposed as a shell command. Sessions call CLIs; the Bus calls the external API. The session never thinks about HTTP, OAuth flows, or credential management — it just runs commands.</p>
+<p>Not all CLIs are the same. The implementation distinguishes two categories:</p>
+<ul>
+<li><strong>Container-local CLIs</strong> — operate entirely within the session container: file manipulation, git operations, build tools, test runners, code analysis. They have no network access to company systems and require no credentials. They are fast, safe to call freely, and identical whether run inside a session or on a developer laptop.</li>
+<li><strong>Bus-mediated CLIs</strong> — cross the container boundary to call a company API. Under the hood, these CLIs route through the Company Bus, which handles authentication, credential injection, logging, and rate limiting. The caller sees a plain shell command; the Bus sees a structured, attributed API call. The distinction is invisible to the session by design — the same <code>--help</code> interface, the same argument style — but architecturally they have different trust and cost implications.</li>
+</ul>
+<p>This has a critical usability benefit: <strong>sessions discover and use APIs the same way they navigate the rest of the repo</strong> — via glob, grep, <code>--help</code> flags, or a semantic search layer over repo content. There is no separate API documentation system to maintain. A session that needs to send an email greps for the email CLI, reads its <code>--help</code>, and calls it. Skills and structured documentation in the repo provide additional progressive disclosure for more complex workflows.</p>
+<p>Any UI built for humans sits on top of these same CLIs. The UI never touches data directly — anything a human can do through a dashboard, an agent can do through a CLI, and vice versa.</p>
+<p>When external software is required for compliance (e.g. QuickBooks, a CRM), the CLI layer includes sync commands that mirror the external system's state into the repo. The repo mirror is the source of truth for agents; the external system is the source of truth for compliance.</p>
+<blockquote>
+<p><strong>Why CLI-first?</strong> Because agents operate through shell commands and file I/O. CLIs are trivially testable, scriptable, and composable. A REST endpoint requires a wrapper; a CLI is called directly. And because CLIs live in the repo alongside everything else, documentation is always where the agent already is.</p>
+</blockquote>
+<h2 id="ii3-three-repos-three-agents">II.3 Three Repos, Three Agents</h2>
+<p><em>(Implements Principles 4 and 5)</em></p>
+<blockquote>
+<p><strong>This is an example, not a prescription.</strong> The three-repo model works for companies whose trust structure is <strong>linear and nested</strong> — like security clearance levels, where each higher tier fully contains the one below it. If your trust structure has that property, you get a significant simplification: the permission DAG collapses to a single chain, and the repo count stays small and predictable. More complex organizations — with cross-functional boundaries, geographic isolation, or non-hierarchical access needs — will need a different repo topology derived from the same principles (P4 and P5), but the specific mapping will differ. We will adopt this example to illustrate more implementation details.</p>
+</blockquote>
+<h3 id="a-three-repo-model">A Three-Repo Model</h3>
+<p>Consider a company with three nested trust tiers — it runs on exactly three repos, one per tier. The tiers contain each other: the highest-trust tier sees everything; the lowest sees only itself.</p>
+<table>
+<thead>
+<tr>
+<th>Repo</th>
+<th>Trust tier</th>
+<th>What lives here</th>
+<th>Who has access</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Root</strong></td>
+<td>Highest</td>
+<td>Permission DAG, human identities, cloud asset definitions, company-wide cron jobs, most sensitive company knowledge, C-suite personal folders</td>
+<td>Admins and C-suite only</td>
+</tr>
+<tr>
+<td><strong>Ops</strong></td>
+<td>Middle</td>
+<td>Finance, HR data, legal templates, vendor contracts, mirrors of external compliance tools (e.g. QuickBooks), HR/finance personal folders</td>
+<td>Management, HR, finance</td>
+</tr>
+<tr>
+<td><strong>Leaf</strong></td>
+<td>Base</td>
+<td>Product code, infrastructure, CI/CD, shared knowledge (including this blueprint), most employees' personal folders</td>
+<td>Everyone</td>
+</tr>
+</tbody>
+</table>
+<p>The permission DAG is trivial: <strong>Root → Ops → Leaf.</strong> Higher tiers can read lower tiers. Lower tiers cannot see higher tiers. This containment property is what keeps the model simple — there are no lateral boundaries to reason about.</p>
+<h3 id="one-trust-boundary-per-repo">One Trust Boundary Per Repo</h3>
+<p>If we equate the read trust boundary with a repo, conceptually, each repo has exactly one agent. The agent knows the entire repo — all its code, knowledge, playbooks, tasks, and every person's folder within it. This is a strict 1:1 mapping: three repos, three agents.</p>
+<p>The agent is not a personal assistant — it is an <strong>organizational entity</strong>. The leaf agent <em>is</em> the engineering and product organization. The ops agent <em>is</em> the operations, HR, and finance function. The root agent <em>is</em> company governance.</p>
+<p>This design enables <strong>hyper-personalization</strong>: when a human starts a conversation, the agent loads that person's personal context (from their <code>personal/&lt;name&gt;/</code> folder) to adapt its behavior — preferences, mental model, ongoing work, communication style. But the agent always retains full awareness of the repo, including other people's context.</p>
+<p>This design has key advantages over per-person agents:</p>
+<ul>
+<li><strong>Contradiction detection.</strong> If Alice's understanding of the architecture conflicts with Bob's, the leaf agent can flag it.</li>
+<li><strong>Cross-person coordination.</strong> The agent sees the full picture — who's working on what, where efforts overlap or conflict, what dependencies exist.</li>
+<li><strong>Multi-person conversations.</strong> Three engineers can talk to the leaf agent simultaneously.</li>
+</ul>
+<blockquote>
+<p><strong>Why one agent per repo instead of one per person?</strong> Specialization is achieved through prompt focus, not through limiting data access. A single agent per repo functions as an organizational entity — it sees the full picture, detects contradictions between people's assumptions, and coordinates cross-person work. Per-person agents would be siloed, each validating their owner's worldview without cross-checking.</p>
+</blockquote>
+<h3 id="personal-folders">Personal Folders</h3>
+<p>Each person has a <code>personal/&lt;name&gt;/</code> folder in the repo matching their trust tier:</p>
+<ul>
+<li>Engineers, salespeople, marketers → <code>leaf/personal/&lt;name&gt;/</code></li>
+<li>HR, finance staff → <code>ops/personal/&lt;name&gt;/</code></li>
+<li>C-suite, admins → <code>root/personal/&lt;name&gt;/</code></li>
+</ul>
+<p>Personal folders hold: agent memory specific to that person, personal workflows, scratch space, ongoing work notes, and mental model documentation. <strong>Folder owners</strong> (CODEOWNERS) ensure only the owner can approve PRs that modify their personal folder.</p>
+<h3 id="the-permission-dag">The Permission DAG</h3>
+<pre><code>Root (admins, C-suite)
+  └── Ops (HR, finance, management)
+        └── Leaf (everyone)
+</code></pre>
+<p>Higher tiers can read lower tiers. The root agent can read ops and leaf. The ops agent can read leaf. The leaf agent sees only leaf.</p>
+<p><strong>Permission groups are named after repos.</strong> Access to a repo grants membership in that group. There is no separate identity system beyond "which of the three repos can this person access?"</p>
+<h2 id="ii4-sessions-sandboxing-scope-and-initiation">II.4 Sessions: Sandboxing, Scope, and Initiation</h2>
+<p><em>(Implements Principles 6 and 10)</em></p>
+<h3 id="container-isolation">Container Isolation</h3>
+<p>Each session runs in an ephemeral cloud container provisioned fresh for that session. Containers are spun up on demand, run to completion, and torn down — there are no persistent session hosts. The container's network is hardened: outbound traffic is restricted to the AI provider's API and the Company Bus. The container cannot reach the open internet, cannot access local network resources, and cannot read any credentials directly — all external calls are mediated by the Bus (see II.2).</p>
+<p>Inside the container, the session operates freely — running code, writing files, spawning subprocesses. When the session ends, the container is scrapped. The only things that persist are what the session committed to company state.</p>
+<h3 id="conversation-participants-and-credential-scope">Conversation Participants and Credential Scope</h3>
+<p><strong>Who is in the conversation determines what the agent can do.</strong> Every conversation is tagged with its <strong>participant list</strong> — the humans present. The Company Bus uses this list to determine the credential scope:</p>
+<ul>
+<li><strong>Single-person conversation:</strong> The agent can access that person's personal resources — their email, their calendar, their private notes in their personal folder.</li>
+<li><strong>Multi-person conversation:</strong> The credential scope is the <strong>intersection</strong> of all participants' repo-level permissions, minus personal-scope actions.</li>
+<li><strong>Autonomous (no human):</strong> The agent operates with the repo's base permissions only.</li>
+</ul>
+<h3 id="how-sessions-are-initiated">How Sessions Are Initiated</h3>
+<p>Sessions can be initiated through multiple channels — all route to a session queue and are picked up by an available container:</p>
+<ul>
+<li><strong>Direct CLI</strong> — a human or cron job starts a session explicitly.</li>
+<li><strong>Chat messages</strong> — a bridge monitors company chat spaces and routes messages to the session queue. The agent responds in the same chat space when done. From the human's perspective it looks like the agent is in the chat; behind the scenes, a full session lifecycle runs in an isolated container with a complete audit trail.</li>
+<li><strong>Email</strong> — inbound emails can trigger sessions via a similar bridge, useful for approval flows and external escalations.</li>
+<li><strong>Cron / scheduler</strong> — the work management system dispatches sessions on schedule or logical trigger (see II.7).</li>
+</ul>
+<p>Chat and email are still not state — the message is the trigger, not the record. The PR or DB transaction the session produces is the record.</p>
+<h3 id="human-in-the-loop-approvals">Human-in-the-Loop Approvals</h3>
+<p>When an agent pauses and needs human input, it generates an <strong>ephemeral self-contained HTML page</strong> with full context, the specific decision needed, and an <strong>approve / deny / converse</strong> interface. A link to this page is sent to the relevant human(s) via email or chat. The page is TTL'd and not part of company state.</p>
+<h3 id="conversation-persistence-and-resume">Conversation Persistence and Resume</h3>
+<p>The session persists in the company DB. Resume provisions a fresh container, loads the prior conversation as context, and starts from the current repo state with a message "conversation is resumed, inspect new repo state". If the repo has changed since the last conversation, the agent sees both the history and the new state — it can identify what changed and decide how to proceed.</p>
+<h2 id="ii5-human-accountability-the-pr-model">II.5 Human Accountability: The PR Model</h2>
+<p><em>(Implements Principle 7)</em></p>
+<h3 id="the-pr-is-the-unit-of-work">The PR Is the Unit of Work</h3>
+<p>Every change an agent makes goes through a pull request. PRs are ephemeral branches — they exist only to facilitate review. Once merged, the branch is deleted and the main branch advances linearly. The company has only one main branch.</p>
+<p><strong>Not all PRs require the same scrutiny.</strong> Each repo defines a merge policy:</p>
+<table>
+<thead>
+<tr>
+<th>Repo</th>
+<th>PR initiated by human</th>
+<th>PR initiated by agent</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Leaf</strong></td>
+<td>At least 1 peer review</td>
+<td>At least 1 peer review</td>
+</tr>
+<tr>
+<td><strong>Ops</strong></td>
+<td>At least 1 peer review</td>
+<td>At least 1 peer review</td>
+</tr>
+<tr>
+<td><strong>Root</strong></td>
+<td>2 admin reviews, no auto-merge ever</td>
+<td>2 admin reviews, no auto-merge ever</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Folder owners</strong> enforce additional protection within repos. A PR modifying someone's personal folder requires that person's approval. A PR modifying the product code folder requires a designated product owner's approval.</p>
+<p>Repos can also define <strong>auto-merge categories</strong> for low-risk changes: formatting fixes, dependency bumps with passing tests, trivial doc typos. These are explicitly listed in the repo's merge policy file — nothing is auto-merged by default.</p>
+<p><strong>Human review is the bottleneck, by design.</strong> An agent outrunning human review is not efficient — it is unaccountable. A <strong>PR flood valve</strong> pauses agent-initiated cron jobs when the pending PR count exceeds a configurable threshold. The right investment is not in minimizing review but in making review faster and higher quality — better diffs, agent-assisted summaries, clearer PR descriptions.</p>
+<h3 id="the-big-red-button">The Big Red Button</h3>
+<p>A company-wide emergency mechanism — the <strong>Big Red Button</strong> — immediately halts all agent write operations across all three repos. When activated:</p>
+<ul>
+<li>All autonomous conversations are paused.</li>
+<li>All cron jobs are suspended.</li>
+<li>No new PRs can be created by agents.</li>
+<li>Agents remain available for <strong>read-only and conversational sessions only</strong>.</li>
+</ul>
+<p>The Big Red Button is controlled by root-repo admins and can be activated per-repo or company-wide.</p>
+<h2 id="ii6-audit-trail">II.6 Audit Trail</h2>
+<p><em>(Implements Principle 8)</em></p>
+<p>The system produces a comprehensive audit trail by default:</p>
+<table>
+<thead>
+<tr>
+<th>Source</th>
+<th>What it captures</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Git history (main branch)</td>
+<td>Every change to every repo, with attribution and review trail. Linear history only — branches are ephemeral.</td>
+</tr>
+<tr>
+<td>Company Bus logs</td>
+<td>Every external action, credential request, and tool invocation — tagged with session ID and participant list</td>
+</tr>
+<tr>
+<td>Session logs</td>
+<td>Every agent conversation, tagged with session type, participants, and credential scope used</td>
+</tr>
+<tr>
+<td>Cloud DB audit logs</td>
+<td>Every read and write to transactional data</td>
+</tr>
+<tr>
+<td>CI/CD logs</td>
+<td>Every build, test, and deployment</td>
+</tr>
+<tr>
+<td>External system sync logs</td>
+<td>Every sync between repo mirrors and external tools</td>
+</tr>
+<tr>
+<td>Issue DB audit logs</td>
+<td>Every state change, assignment, and work log entry, see below</td>
+</tr>
+<tr>
+<td>Announcement logs</td>
+<td>Every broadcast announcement — author identity, session, category, message, see below</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Session IDs are the connective tissue of the audit trail.</strong> Every session has a unique ID that flows through all downstream artifacts: PRs include the session ID in their description, issue work log entries are tagged with it, DB writes carry it, Company Bus logs record it. Any artifact — a PR, a work log entry, a DB mutation — can be traced back to the exact session that produced it, the conversation that drove it, the credential scope it operated under, and the humans who were present.</p>
+<p>Session logs are stored as first-class company data, scoped by the session's permission groups. They are the foundation for post-mortems, compliance reviews, and automated self-improvement.</p>
+<h2 id="ii7-issue-tracking-and-cron-the-work-engine">II.7 Issue Tracking and Cron: The Work Engine</h2>
+<p><em>(Implements Principle 9)</em></p>
+<h3 id="issue-tracking-repo-for-definitions-db-for-instances">Issue Tracking: Repo for Definitions, DB for Instances</h3>
+<p><strong>What lives in repos (PR-reviewed, version-controlled):</strong></p>
+<ul>
+<li><strong>Issue templates</strong> — reusable templates for recurring issues.</li>
+<li><strong>Repeated issue definitions</strong> — cron-like schedules that automatically create new issue instances in the DB.</li>
+<li><strong>Issue policies</strong> — SLAs, auto-assignment rules, escalation triggers, priority definitions.</li>
+<li><strong>Issue categories and labels</strong> — the taxonomy used to classify issues.</li>
+</ul>
+<p><strong>What lives in the cloud DB (transactional, real-time):</strong></p>
+<ul>
+<li><strong>Issue instances</strong> — from creation to completion.</li>
+<li><strong>Assignees</strong> — which humans and/or the repo's agent are responsible.</li>
+<li><strong>Work log</strong> — timestamped entries recording progress, decisions, and blockers.</li>
+<li><strong>Related conversations</strong> — links to conversation JSONLs.</li>
+<li><strong>Subscribers</strong> — humans notified of updates.</li>
+<li><strong>Snooze</strong> — temporarily suppress an issue until a date or event.</li>
+</ul>
+<h3 id="cron-jobs">Cron Jobs</h3>
+<p>Each of the three repos defines cron jobs relevant to its domain. Cron invocations and their results are persisted in the repo.</p>
+<p><strong>Notable cron jobs</strong> that every company should consider:</p>
+<ul>
+<li><strong>Roadmap red team</strong> — critically evaluates the current roadmap against market conditions.</li>
+<li><strong>Security red team</strong> — periodic scanning for exposed credentials, dependency vulnerabilities, anomalous access patterns, and attack surface changes.</li>
+<li><strong>Competition research</strong> — periodic scanning of competitor activity.</li>
+<li><strong>Documentation freshness and contradiction detection</strong> — scanning all repo knowledge for stale information and internal contradictions.</li>
+<li><strong>Self-evolving workflows</strong> — nightly review of recent conversations and PRs, spotting patterns where agents deviated from playbooks or repeatedly hit friction. The agent suggests PRs to update workflows accordingly.</li>
+<li><strong>AI-CI/CD</strong> — a session triggered on every deploy that runs the full test suite and asserts overall system health. Equivalent to asking: "did this change break anything?"</li>
+</ul>
+<h3 id="announcements-channel">Announcements Channel</h3>
+<p>Each repo has an <strong>announcements channel</strong> — a broadcast mechanism for real-time coordination between concurrent agent sessions. When an agent does something significant — merges a PR, starts infrastructure changes, claims an issue, hits a blocker — it posts an announcement. All active agent sessions in the same repo receive announcements automatically.</p>
+<p>Announcements are mirrored to a human-readable channel so humans can monitor agent activity at a high level.</p>
+<h2 id="ii8-supporting-concerns">II.8 Supporting Concerns</h2>
+<h3 id="security-and-compliance">Security and Compliance</h3>
+<ul>
+<li><strong>Zero Trust networking</strong> (BeyondCorp model). No device or network location is inherently trusted.</li>
+<li><strong>Secrets never in repos.</strong> All sensitive values live in a vault managed by the Company Bus. Repos hold references to secret names/paths, not values.</li>
+<li><strong>SOC2 and GDPR alignment</strong> falls naturally from the architecture — access control, change management, audit logging, and data minimization are structural properties, not add-ons. Changing human permission tier is a PR that needs to be approved.</li>
+</ul>
+<h3 id="cicd-and-deployment">CI/CD and Deployment</h3>
+<p>On every merged PR: build and test the change, deploy to the appropriate environment, notify relevant agents if the change has cross-tier implications, and update telemetry. Deployments are designed for rollback — CI/CD maintains artifact history, and rollback can be triggered by humans, agents, or automated health checks.</p>
+<h3 id="onboarding">Onboarding</h3>
+<p>A new hire receives: identity provisioned in the root repo, a personal folder created from a template, folder ownership set, minimal machine setup (clone repo, authenticate), an agent-guided first day, and a human buddy for ramp-up. Target: a new engineer is productive — reviewing PRs, triggering sessions, contributing — within 1-2 days.</p>
+<h3 id="portability-and-vendor-independence">Portability and Vendor Independence</h3>
+<p>The company's state lives in three repos and cloud data — not in any AI vendor's proprietary format. Agent memory is markdown in git; conversations are JSONL. Swapping the AI provider behind the Company Bus requires no changes to repos, data, or workflows. The switching cost should be measured in days, not months. There is no lock-in at the state layer.</p>
+<h3 id="backup-and-disaster-recovery">Backup and Disaster Recovery</h3>
+<p>Three git repos and cloud databases are the complete company state. Git repos are inherently distributed — every developer's clone is a full backup. Databases follow standard snapshot mechanisms. Because there is no hidden state (no tribal knowledge, no critical data in email threads, no config on laptops), restoring from backup reconstructs the full operating company. Ransomware is largely ineffective against repo content — git's immutable history means you revert to any prior commit. The ephemeral-everything design means there is nothing on local machines worth encrypting.</p>
+<h3 id="operating-norm-see-something-say-something">Operating Norm: See Something, Say Something</h3>
+<p>While working on a task, sessions (and humans) are expected to file issues for anything they notice outside the scope of their current work — bugs in unrelated code, stale configuration, a manual step that should be codified, a security concern, an improvement opportunity. The session does not stop to fix it; it files an issue and moves on. Without this norm, sessions optimize narrowly for their assigned task and leave collateral problems unrecorded.</p>
+<h3 id="high-churn-data-flood-valve">High-Churn Data Flood Valve</h3>
+<p>The PR flood valve works because PRs are coarse-grained — each one is a meaningful unit of review. High-churn transactional data (issue comments, work log entries, DB writes) is different: requiring review before each write would create unacceptable friction and defeat the purpose of the transactional layer.</p>
+<p>The solution is a <strong>batch review mechanism</strong> configurable per data type. Rather than blocking individual writes, the system pauses autonomous creation once an unreviewed backlog threshold is reached. For example: surface a human review prompt every 25 new issues, and pause autonomous issue creation entirely once 50 issues are pending review. The thresholds and review cadence are defined in the repo's merge policy and can be tuned per data type. This keeps agents productive while preventing runaway creation that overwhelms human capacity.</p>
+<h2 id="ii9-operational-health">II.9 Operational Health</h2>
+<p><em>(Implements Principle 9)</em></p>
+<p>A healthy company has observable invariants — properties that should always be true. The operational health system continuously asserts these invariants and feeds failures back into the work engine as issues or circuit breaker trips. Health check definitions live in the repo (versioned, reviewed like any other configuration); results flow through the standard audit trail; failures are just another kind of work.</p>
+<h3 id="health-check-categories">Health Check Categories</h3>
+<p><strong>Infrastructure health</strong> — is the company's runtime in good shape?</p>
+<ul>
+<li>Company Bus is reachable and responding within latency thresholds</li>
+<li>Session containers are provisioning and completing successfully</li>
+<li>Services are self-updating from main within the expected window</li>
+<li>External system integrations (email, calendar, CRM) are reachable</li>
+</ul>
+<p><strong>State drift</strong> — is the live state of the company consistent with what the repo declares?</p>
+<ul>
+<li>Live infrastructure configuration matches repo declarations</li>
+<li>External system mirrors are in sync with their sources (last sync within expected window, no unreconciled divergence)</li>
+<li>Agent definitions deployed in production match the repo's current versions</li>
+</ul>
+<p><strong>Work queue health</strong> — is work flowing at a sustainable rate?</p>
+<ul>
+<li>Pending PRs below flood valve threshold</li>
+<li>Unreviewed high-churn items below batch review threshold</li>
+<li>No issues past their SLA without a human acknowledgement</li>
+<li>Cron jobs ran within their expected window; no silent failures</li>
+<li>No sessions stuck in a running state beyond their expected duration</li>
+</ul>
+<h3 id="implementation">Implementation</h3>
+<p>Health checks are implemented as <strong>assertion CLIs</strong> — short commands that exit 0 (healthy) or non-zero (unhealthy) with a structured message explaining the failure. They are called by the health runner, a cron job that executes all registered checks on a configurable schedule and routes failures:</p>
+<ul>
+<li><strong>Minor failures</strong> (e.g., a cron job missed one run) → create an issue at appropriate priority, assigned to the relevant agent</li>
+<li><strong>Threshold breaches</strong> (e.g., pending PRs exceed flood valve) → trip the relevant circuit breaker and post an announcement</li>
+<li><strong>Critical failures</strong> (e.g., Company Bus unreachable) → alert humans immediately via email/chat and halt autonomous work</li>
+</ul>
+<p>New health checks are added by dropping an assertion CLI into the repo's health check registry — a versioned YAML file listing which checks run, at what frequency, and what failure routing to apply. No changes to the health runner itself are needed.</p>
+<h3 id="the-assertion-as-the-unit-of-operational-tdd">The Assertion as the Unit of Operational TDD</h3>
+<p>The health check registry is the company's test suite. Before deploying a new integration, a new workflow, or a new cron job, the author also writes the assertion that will continuously verify it is working. A feature is not done until its health assertion is green and running. This is Test-Driven Operations: define what healthy looks like before the work starts, and verify it continuously once it ships.</p>
+<hr>
+<h1 id="frequently-asked-questions">Frequently Asked Questions</h1>
+<p><strong>What prevents an agent from going rogue?</strong></p>
+<p>Defense in depth: (1) The Company Bus limits external actions and holds all credentials. (2) Sessions are sandboxed containers with no direct internet access. (3) PRs require human review before taking effect. (4) Session guardrails (turn limits, cost ceilings, convergence checks) prevent runaway sessions. (5) All actions are logged with full attribution. (6) Circuit breakers provide emergency stops. (7) The Big Red Button freezes all agent writes company-wide. (8) Heuristics at the Company Bus level detect anomalous session behavior — unexpected call volumes, unusual credential requests, out-of-pattern API usage — and can halt session execution proactively.</p>
+<p><strong>What if a session container is hijacked?</strong></p>
+<p>The architecture provides meaningful containment. Code changes happen in an isolated git worktree — they never touch main directly. A PR must be reviewed by a human before anything merges. Object storage is append-only and TTL'd: file references in the repo point to immutable objects; replacing a stored artifact requires a code change that produces a new object reference, which flows through the normal PR audit trail. External API calls are rate-limited at the Bus. The highest-concern surface is the cloud DB: a hijacked session could create fake issues, manipulate work logs, or flood the issue table. These changes are reversible (the DB has an audit log and point-in-time recovery), but they could cause temporary operational harm. Mitigations: rate-limit DB writes per session at the Bus, monitor for anomalous patterns (spike in issue creation, bulk assignment changes), and require human approval for high-impact DB operations in autonomous sessions.</p>
+<p><strong>Why one agent per trust boundary instead of one per person?</strong></p>
+<p>Specialization is achieved through prompt focus, not through limiting data access. A single agent per trust boundary functions as an organizational entity — it sees the full picture, detects contradictions between people's assumptions, and coordinates cross-person work. Per-person agents would be siloed, each validating their owner's worldview without cross-checking.</p>
+<p><strong>How do non-technical people use this?</strong></p>
+<p>Through sessions of whatever trust boundary they belong to. They speak in natural language; the agent translates to repo operations. They never open a terminal. Auxiliary UIs exist for common actions, but these are thin layers on top of the APIs — never the source of truth.</p>
+<p><strong>What about tools required for compliance (QuickBooks, etc.)?</strong></p>
+<p>If an external system provides meaningful value and exposes an API, we can treat it as part of the company state. However, if external software is required only for compliance and otherwise creates data access friction, we use mirroring: a sync mechanism maintains a mirror in the repo or internal DB so agents can operate on the data. Sync cron jobs keep them reconciled.</p>
+<p><strong>Is this tied to a specific AI vendor or cloud provider?</strong></p>
+<p>No. The company's state lives in repos and cloud data — not in any vendor's proprietary format. The Company Bus abstracts the AI runtime and all external integrations. Switching AI vendors means re-provisioning the agents; switching cloud providers means migrating repos and databases. Either should be measured in days, not months.</p>
+<p><strong>The agent knows the entire repo — doesn't that break at scale?</strong></p>
+<p>Context windows are growing fast, and for a small-to-mid-size company the entire repo's knowledge base may already fit. For now, smart loading is sufficient: sessions load what is relevant to the task, using repo structure as a navigation layer. When a repo grows beyond what fits in context, a semantic index layer is added as a CLI tool — think Google's internal code search. The agent searches for what it needs, reads the relevant files, and sparsely checks out only the files it intends to edit. This scales well even in very large monorepos, like Google's.</p>
+<p><strong>How is the PR review bottleneck addressed without making auto-merge more aggressive?</strong></p>
+<p>It is not addressed by making auto-merge more aggressive — human review is the bottleneck by design. An agent outrunning human review is not efficient; it is unaccountable. The right investment is in making review faster and higher quality: better PR summaries generated by the agent, clearer diffs, agent-assisted review. The flood valve ensures the queue never outpaces human capacity. Auto-merge categories (formatting, trivial typos, dependency bumps with passing tests) handle the obvious low-risk cases explicitly.</p>
+<p><strong>What about spreadsheets?</strong></p>
+<p>Spreadsheets are primarily a human visualization and collaboration tool, not a source of truth. The workflow is: the human and agent collaborate interactively in a spreadsheet (iterating on a financial model, a budget), and when the human is satisfied, they instruct the agent to materialize the result into the repo as structured data (JSON, YAML, CSV, or a markdown table — accompanied by code or a script to recompute values if inputs change). The spreadsheet becomes a scratch space; the repo gets the canonical version. This points to a broader cultural shift: <strong>humans must stop thinking as synthesizers and start thinking as analyzers.</strong> Agents do the synthesis; humans review, judge, and decide.</p>
+<p><strong>What about simultaneous edits — can two sessions modify the same file at once?</strong></p>
+<p>The first PR approved is merged; the second must resolve conflicts before it can merge. The session handles the rebase and text-level conflict resolution automatically. If the conflict is ambiguous — two versions with genuinely different intent — the session surfaces it in plain language ("Alice's version sets the price at $49, Bob's sets it at $45 — which should win?") and the human decides. No git knowledge required on the human's part.</p>
+<p><strong>How does the blueprint handle GDPR right to erasure, given Git's immutable history?</strong></p>
+<p>HR-sensitive content belongs in the DB, never in repos. The ops agent must never write sensitive personal information (salary, health accommodations, disciplinary notes) into repo files — that content goes in the DB, which has clean deletion semantics. For audit logs: log the <em>event</em>, not the <em>content</em> — "field [redacted] was deleted" rather than storing the old value. For backups: GDPR accepts that backups contain deleted data, as long as when a backup is restored, deletions are re-applied before the system goes live.</p>
+<p><strong>Does the blueprint require specific tools for repos, email, or chat?</strong></p>
+<p>No. What matters is that each system exposes an API or a CLI (or can be wrapped in one). GitHub, GitLab, or self-hosted git for repos; Gmail, Outlook, or any SMTP system for email; Slack, Google Chat, Teams, Telegram for chat — all work. The blueprint is tool-agnostic at the integration layer.</p>
+<p><strong>Won't giving each session access to all the knowledge slow things down?</strong></p>
+<p>Convergence to a meaningful result per session is the top concern. Speed is secondary — we are operating a company where humans need to review outcomes, provide feedback, and approve. Humans are the rate-limiting step by design, which relieves the pressure to make AI sessions faster. Sessions can explore, iterate, self-correct, and verify before presenting an outcome for review or approval.</p>
+<hr>
+<h1 id="the-company-as-an-operating-system">The Company as an Operating System</h1>
+<p>The AI-native company operating model maps surprisingly cleanly onto the architecture of a computer operating system. An OS manages processes that share hardware resources. This blueprint manages sessions that share company resources. In both cases, a central privileged layer mediates all resource access, enforces permissions, provides isolation between workloads, and logs everything. Understanding the parallel helps build intuition for why the design is the way it is.</p>
+<h2 id="concept-map">Concept Map</h2>
+<table>
+<thead>
+<tr>
+<th>OS concept</th>
+<th>Company equivalent</th>
+<th>The parallel</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Kernel</strong></td>
+<td>Company Bus</td>
+<td>The single privileged layer that mediates all resource access. User processes (sessions) never touch hardware (credentials/APIs) directly — they go through the kernel (Bus). The kernel is deterministic and tightly controlled; it never runs user code. The Bus is deterministic and never runs LLM sessions.</td>
+</tr>
+<tr>
+<td><strong>Process</strong></td>
+<td>Session</td>
+<td>The atomic unit of execution. Each has a unique ID, an allocated resource scope, and an isolated environment. When it terminates, its resources are reclaimed. A process's PID is its identity for its lifetime; a session's session ID is its identity for its lifetime.</td>
+</tr>
+<tr>
+<td><strong>System call</strong></td>
+<td>CLI / Bus API call</td>
+<td>The boundary crossing from user space into kernel space. A process requests a kernel service (read a file, open a socket) via a syscall — it cannot do these things itself. A session requests an external service (send an email, query a DB) via a CLI that proxies through the Bus — it cannot do these things directly either.</td>
+</tr>
+<tr>
+<td><strong>Virtual memory / address space</strong></td>
+<td>Container isolation</td>
+<td>Each process has its own virtual address space and cannot read another process's memory. Each session has its own container and cannot read data outside its trust scope. The isolation is enforced by the underlying runtime (OS kernel / container runtime), not by the process/session itself.</td>
+</tr>
+<tr>
+<td><strong>File system + permissions</strong></td>
+<td>Company state + trust tiers</td>
+<td>The OS file system stores persistent state; permissions (owner, group, others; read/write/execute) control who can access what. The company state stores persistent state; trust tiers (root/ops/leaf) and folder owners control who can read and write what.</td>
+</tr>
+<tr>
+<td><strong>User / group model</strong></td>
+<td>Trust tier membership</td>
+<td>OS users belong to groups; file permissions are granted at user and group level. Humans belong to trust tiers; permissions are granted at the tier level with per-folder refinement. "Which repos can this person access?" is the company equivalent of <code>/etc/passwd</code> and <code>/etc/group</code>.</td>
+</tr>
+<tr>
+<td><strong>Process scheduler</strong></td>
+<td>Work management engine</td>
+<td>The OS scheduler decides which process runs when, allocating CPU time across competing workloads. The work management system decides which session runs when, dispatching tasks from the issue queue based on priority, SLA, and available capacity.</td>
+</tr>
+<tr>
+<td><strong>Daemon process</strong></td>
+<td>Autonomous / cron session</td>
+<td>A daemon runs in the background without a controlling terminal, performing work on a schedule or in response to events. An autonomous session runs in a container without human participants, triggered by cron or a logical event, and terminates when its task is complete.</td>
+</tr>
+<tr>
+<td><strong>Shell</strong></td>
+<td>CLI layer</td>
+<td>The shell is the human-facing interface to kernel capabilities — it translates typed commands into syscalls. The CLI layer is the session-facing interface to Bus capabilities — it translates shell commands into Bus API calls. Both abstract the underlying system while exposing its full power.</td>
+</tr>
+<tr>
+<td><strong>Inter-process communication (IPC)</strong></td>
+<td>Announcements channel</td>
+<td>OS processes coordinate through pipes, signals, and sockets. Sessions coordinate through the announcements channel — a structured broadcast mechanism for status updates, warnings, and handoffs between concurrent sessions.</td>
+</tr>
+<tr>
+<td><strong>Audit log / syslog</strong></td>
+<td>Audit trail</td>
+<td>The OS kernel logs system events (logins, privilege escalations, syscalls) to a central log. The Company Bus logs every external action, credential request, and tool invocation with full attribution. Session IDs are the connective tissue, just as PIDs are in OS audit logs.</td>
+</tr>
+<tr>
+<td><strong>Signal (SIGTERM / SIGKILL)</strong></td>
+<td>Session interrupt / Big Red Button</td>
+<td>SIGTERM asks a process to stop gracefully; SIGKILL forces immediate termination. An admin can interrupt a session gracefully (it pauses and produces a status report) or activate the Big Red Button for immediate halt of all agent write operations.</td>
+</tr>
+<tr>
+<td><strong>Core dump</strong></td>
+<td>Session JSONL on pause</td>
+<td>When a process crashes or is interrupted, the OS can capture a core dump — a snapshot of its state for post-mortem analysis. When a session pauses (guardrail hit, awaiting approval), it produces a JSONL snapshot of the conversation — a complete record for review, resume, or post-mortem.</td>
+</tr>
+<tr>
+<td><strong>Boot from disk image</strong></td>
+<td>Container provisioned from repo</td>
+<td>A computer boots into a known state from a disk image. A session container is provisioned from the current repo state — it starts in a known, reproducible configuration every time.</td>
+</tr>
+<tr>
+<td><strong><code>/proc</code> filesystem</strong></td>
+<td>State inspectable via CLIs</td>
+<td>Linux exposes live kernel and process state as readable files under <code>/proc</code>. Company state is always inspectable via CLIs that read repos and cloud data — an agent can query any aspect of the current state the same way a sysadmin reads <code>/proc/meminfo</code>.</td>
+</tr>
+<tr>
+<td><strong>Watchdog timer / health daemon</strong></td>
+<td>Operational health checks (II.9)</td>
+<td>OS watchdog timers detect hung processes and trigger recovery. The operational health system continuously asserts company invariants — services up, state matching declarations, queues draining — and routes failures into the work engine as issues or circuit breaker trips. The health check registry is the company's test suite.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="the-deepest-parallel-kernel-space-vs-user-space">The Deepest Parallel: Kernel Space vs. User Space</h2>
+<p>The most important parallel is the <strong>kernel/user space boundary</strong>. In an OS, this boundary is fundamental to security: user processes cannot directly access hardware, cannot directly read other processes' memory, and cannot escalate their own privileges. All powerful operations go through the kernel, which validates permissions and logs the access.</p>
+<p>The Company Bus is this boundary for the AI-native company. Sessions (user space) cannot directly access credentials, cannot directly call external APIs, and cannot read data outside their trust scope. All powerful operations go through the Bus (kernel space), which validates the session's trust tier, checks the participant list, executes the call, and logs it.</p>
+<p>This is why the Bus must be deterministic. A kernel with non-deterministic behavior would be unpredictable and unauditable — a security catastrophe. A Company Bus that ran LLM sessions would have the same problem: non-deterministic code at the privilege boundary, holding all credentials, with no way to audit or predict its behavior.</p>
+<h2 id="the-scheduler-parallel-from-time-sharing-to-work-sharing">The Scheduler Parallel: From Time-Sharing to Work-Sharing</h2>
+<p>Early computers ran one program at a time. The OS scheduler made time-sharing possible — many processes could share one CPU by taking turns. The AI-native company does the same at the organizational level: one Company Bus, many sessions, taking turns on tasks dispatched by the work management system. The issue tracker is the run queue; SLA priorities are the scheduling policy; the flood valve prevents the queue from growing faster than it can drain.</p>
+<p>There is, however, an important difference from CPU scheduling. CPU-bound processes compete for a scarce compute resource. AI sessions are almost entirely <strong>I/O-bound</strong> — the dominant cost is waiting for inference responses from the AI provider. A session spends the vast majority of its wall-clock time waiting on API calls, not consuming compute at the Bus. This means a relatively modest Company Bus can serve many concurrent sessions simultaneously, the same way a web server handles thousands of concurrent connections despite running on modest hardware. The scheduling problem for the AI-native company is not resource contention at the Bus — it is queue management, SLA enforcement, and human review capacity.</p>
+<hr>
+<h2 id="appendix-a-prior-art--related-work">Appendix A: Prior Art &amp; Related Work</h2>
+<p>This blueprint builds on a growing body of work at the intersection of AI agents and organizational design. We acknowledge the following related work and explain how this blueprint relates to each.</p>
+<h3 id="the-llm-os-metaphor">The LLM OS Metaphor</h3>
+<p>Andrej Karpathy introduced the concept of the <a href="https://x.com/karpathy/status/1707437820045062561">"LLM as kernel process of a new Operating System"</a> in September 2023, mapping LLM internals to hardware: context window as RAM, inference as CPU, embeddings as filesystem. His framing crystallized the intuition that LLMs are not chatbots — they are general-purpose compute.</p>
+<p>This blueprint adopts the OS metaphor but applies it at a different layer. Karpathy describes the <strong>compute node</strong> — what a single AI agent is. This blueprint describes the <strong>distributed system</strong> built from those nodes — how multiple agents coordinate, how humans govern them, and how organizational state is managed. Where Karpathy's LLM is the kernel, this blueprint's Company Bus is the kernel — deterministic, credential-holding, and fully auditable.</p>
+<h3 id="aios-llm-agent-operating-system">AIOS: LLM Agent Operating System</h3>
+<p><a href="https://github.com/agiresearch/AIOS">AIOS</a> (Rutgers University, COLM 2025) embeds LLMs into an OS kernel layer, providing scheduling, context management, memory management, and access control for concurrent agents. It achieves up to 2.1x faster agent execution through unified resource management.</p>
+<p>AIOS and this blueprint are <strong>complementary, not competing.</strong> AIOS solves the runtime problem — how to efficiently run many agents on shared LLM infrastructure. This blueprint solves the organizational problem — what those agents are allowed to do, who reviews their work, and how the company's knowledge stays coherent. An AIOS kernel could serve as the runtime layer underneath a Blueprint-style company.</p>
+<h3 id="enterprise-coding-agent-platforms">Enterprise Coding Agent Platforms</h3>
+<p><a href="https://blog.langchain.com/open-swe-an-open-source-framework-for-internal-coding-agents/">Open SWE</a> (LangChain, March 2026) codifies the architecture that Stripe, Coinbase, and Ramp independently converged on for internal coding agents: isolated cloud sandboxes, curated toolsets, git integration. <a href="https://cognition.ai/">Devin</a> (Cognition Labs), <a href="https://factory.ai">Factory AI</a>, and <a href="https://openhands.dev/">OpenHands</a> pursue similar approaches. This convergent pattern — sandboxed containers, git-native workflows, deterministic orchestration — validates the blueprint's execution model. These platforms apply the pattern to software engineering; this blueprint extends it to all company functions.</p>
+<h3 id="gitagent">GitAgent</h3>
+<p><a href="https://github.com/open-gitagent/gitagent">GitAgent</a> (362 stars, early stage) proposes an open standard for defining agents as git repositories: <code>agent.yaml</code> for manifest, <code>SOUL.md</code> for identity, <code>RULES.md</code> for constraints. Its compliance-first design (FINRA, SEC) validates the need for regulated, auditable agent definitions. GitAgent defines <em>how to describe individual agents</em> in git; this blueprint shares the "Agent-as-code" philosophy while shifting the focus on sessions.</p>
+<hr>
+<h2 id="license">License</h2>
+<p>© 2026 Gilad Pagi.</p>
+<p>This work is licensed under the <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a> (CC BY 4.0). You are free to share, adapt, and build upon this material for any purpose, including commercial use, provided you give appropriate credit.</p>
+<p>Contact <strong>gpagi@BeanOS.ai</strong> for questions.</p>
+<hr>
+<p><em>Proudly created with <a href="https://claude.ai/claude-code">Claude Code</a> after many iterations and back-and-forth with humans. Don't be alarmed by the shallow commit history — this repo was auto-generated from an internal repository once the draft was ready to be shared.</em></p>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <p>© 2026 Gilad Pagi · <a href="https://github.com/BeanOS-ai/BeanOS-MindShare" target="_blank" rel="noopener">GitHub</a> · <a href="https://github.com/BeanOS-ai/BeanOS-MindShare/issues" target="_blank" rel="noopener">Discuss</a> · <a href="https://gpgroupcompany.com/cv.html" target="_blank" rel="noopener">LinkedIn</a></p>
+        <p style="margin-top: 6px;">Licensed under <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a></p>
+        <p style="margin-top: 6px;">For LLM ingestion, point your agent to the <a href="https://raw.githubusercontent.com/BeanOS-ai/BeanOS-MindShare/main/blueprint.md" target="_blank" rel="noopener">pure markdown</a>.</p>
+    </footer>
+
+    <!-- Discuss on GitHub floating button -->
+    <a href="https://github.com/BeanOS-ai/BeanOS-MindShare/issues" target="_blank" rel="noopener" class="discuss-btn" aria-label="Discuss on GitHub">
+        <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+        <span>Discuss on GitHub</span>
+    </a>
+
+    <!-- Mobile TOC toggle -->
+    <button class="toc-toggle" id="tocToggle" aria-label="Open table of contents">
+        ☰ Contents
+    </button>
+
+    <script src="script.js"></script>
+
+</body>
+</html>
