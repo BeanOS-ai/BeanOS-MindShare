@@ -129,16 +129,19 @@
                     <h1>The AI-Native Company Blueprint</h1>
                     <p class="article-subtitle">An operating system for running a company on AI as the underlying infrastructure.</p>
                     <div class="article-meta">
-                        <span class="author-name"><a href="https://www.linkedin.com/in/giladpagi/" target="_blank" rel="noopener">Gilad Pagi</a></span>
+                        <span class="author-name"><a href="https://gpgroupcompany.com/cv.html" target="_blank" rel="noopener">Gilad Pagi</a></span>
                         <span class="meta-dot">·</span>
                         <span>March 2026</span>
                         <span class="meta-dot">·</span>
                         <span class="article-version">v0.3</span>
                     </div>
+                    <div class="author-box">
+                        <div class="author-box-label">About the Author</div>
+                        <div class="author-box-text">Ex-Google Staff Engineer · Math PhD, University of Michigan</div>
+                    </div>
                 </header>
 
-                <h1 id="the-ai-native-company-blueprint">The AI-Native Company Blueprint</h1>
-<blockquote>
+                <blockquote>
 <p><strong>Work in Progress</strong> — This is an early draft shared for feedback. Comments and discussion welcome via <a href="https://github.com/BeanOS-ai/BeanOS-MindShare/issues">GitHub Issues</a> or <a href="https://www.linkedin.com/in/giladpagi/">LinkedIn</a>.</p>
 </blockquote>
 <h2 id="tldr--executive-summary">TL;DR / Executive Summary</h2>
@@ -161,7 +164,7 @@
 <p>A traditional company's state is scattered across email threads, chat messages, Docs, PDFs, spreadsheets, tickets, people's heads, databases, and local machines. AI can only work on data it has access to. The variety of sources makes retrieval inefficient and access management hard.</p>
 <p>The company's state must live in a single, accessible, version-controlled system. No tribal knowledge, no scattered silos. Data may be unstructured (prose, attachments) or structured (YAML, tables) — the more structured, the more efficiently agents can operate on it. Every piece of data that may drive action or decision must be captured here: versioned, attributed, and reviewable.</p>
 <blockquote>
-<p><strong>Example we like — GitLab's handbook-first culture.</strong> GitLab runs their entire company via a <a href="https://about.gitlab.com/handbook/">public, version-controlled handbook</a>: every policy, process, org structure, and decision lives in git. The discipline is enforced culturally: no decision is complete until it is documented there. For AI agents, this is the closest existing analog to P1 — a queryable, attributable, always-current source of company truth. GitLab's internal version is almost certainly richer still. The gap: the handbook covers knowledge and process, not operational state (issues, schedules, agent memory, transactional data). P1 extends the same discipline to everything.</p>
+<p><strong>Example we like — GitLab's handbook-first culture.</strong> GitLab runs their company via a <a href="https://about.gitlab.com/handbook/">version-controlled handbook</a>: every policy, process, org structure, and decision lives in git. The discipline is enforced culturally: no decision is complete until it is documented there. For AI agents, this is an exemplar of Principle 1 (P1, hereafter) — a queryable, attributable, always-current source of company truth. GitLab's internal version is almost certainly richer still.</p>
 </blockquote>
 <h2 id="principle-2-all-actions-must-be-programmable">Principle 2: All actions must be programmable</h2>
 <p>Every action — creating, updating, sharing, transacting, filling out forms — must be executable via a programmatic interface. This is not about replacing humans; it is about ensuring agents are never blocked by a UI-only path.</p>
@@ -178,8 +181,9 @@
 <p>Agents are not personal assistants — they are organizational infrastructure, defined by code like any other system component. Think Infrastructure as Code, but for agents: their behavior, knowledge, memory, and mandates are declared in versioned configuration and code. There is no private agent state outside the company data — no AI tribal knowledge. Personalization is achieved by focusing on the relevant portion of company state — there is no out-of-band customization.</p>
 <p>Agents operate the company: they initiate work, produce artifacts, and act within their mandate. Humans steer: they set direction, review outputs, and approve consequential actions. Agents may adapt their behavior based on audience or context, but that adaptation is driven by data in the repo, not hidden internal state.</p>
 <blockquote>
-<p><strong>Example we like — Claude Code.</strong> Claude Code anchors on the repo: <code>CLAUDE.md</code> files carry versioned knowledge and instructions that shape every session. Memory can be configured to write into the repo itself, making agent learning a first-class git artifact. The hooks system lets sessions update company state on every significant action — session start, tool call, session end — bridging the gap between ephemeral sessions and persistent organizational memory. One thing we'd ask of the Claude Code team: a first-class data structure to represent the session, so it can be stored remotely and resumed from any machine. Hooks get us most of the way there already.</p>
+<p><strong>Example we like — Claude Code.</strong> Claude Code anchors on a repo you choose. <code>CLAUDE.md</code> files carry versioned knowledge and instructions that shape every session. Memory can be configured to write into the repo itself (<code>autoMemoryDirectory</code>, recently supported), making agent learning a first-class git artifact. The hooks system lets sessions update company state on every significant action — session start, tool call, session end — bridging the gap between ephemeral sessions and persistent organizational memory. Two things we'd ask of the Claude Code team: (1) a first-class data structure to represent the session, so it can be stored remotely and resumed from any machine (hooks get us most of the way there already), and (2) support for <code>autoMemoryDirectory</code> in <code>settings.json</code>, not just <code>settings.local.json</code>.</p>
 </blockquote>
+<p>This principle may not be popular with AI-fluent employees who already have a supercharged setup — albeit a local one. But an AI-native company cannot accept outcomes generated from hidden knowledge, memory, or skills. These capabilities must be company assets, shared across everyone.</p>
 <h2 id="principle-5-trust-tiers-define-the-companys-permission-structure">Principle 5: Trust tiers define the company's permission structure</h2>
 <p>Since the company is its data, access to that data defines organizational trust. The company is partitioned into trust tiers — groups of data with different read permissions. These tiers are declared and version-controlled as part of the company's state.</p>
 <p>Read permissions determine what agents and humans can see. Write permissions are the mechanism for approving changes — you can only merge changes into data you are authorized to govern. Write permissions may be configured to allow agents to commit changes autonomously in areas where full delegation is acceptable, or review is done after the fact.</p>
@@ -702,7 +706,7 @@
 
     <!-- Footer -->
     <footer class="site-footer">
-        <p>© 2026 Gilad Pagi · <a href="https://github.com/BeanOS-ai/BeanOS-MindShare" target="_blank" rel="noopener">GitHub</a> · <a href="https://github.com/BeanOS-ai/BeanOS-MindShare/issues" target="_blank" rel="noopener">Discuss</a> · <a href="https://www.linkedin.com/in/giladpagi/" target="_blank" rel="noopener">LinkedIn</a></p>
+        <p>© 2026 Gilad Pagi · <a href="https://github.com/BeanOS-ai/BeanOS-MindShare" target="_blank" rel="noopener">GitHub</a> · <a href="https://github.com/BeanOS-ai/BeanOS-MindShare/issues" target="_blank" rel="noopener">Discuss</a> · <a href="https://gpgroupcompany.com/cv.html" target="_blank" rel="noopener">LinkedIn</a></p>
         <p style="margin-top: 6px;">Licensed under <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a></p>
         <p style="margin-top: 6px;">For LLM ingestion, point your agent to the <a href="https://raw.githubusercontent.com/BeanOS-ai/BeanOS-MindShare/main/blueprint.md" target="_blank" rel="noopener">pure markdown</a>.</p>
     </footer>

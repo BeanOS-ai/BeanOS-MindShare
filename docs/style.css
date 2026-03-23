@@ -299,6 +299,30 @@ body {
     border-radius: 4px;
 }
 
+.author-box {
+    margin-top: 20px;
+    padding: 14px 18px;
+    background: var(--brand-wash);
+    border: 1px solid rgba(30, 64, 175, 0.15);
+    border-radius: 8px;
+    font-family: var(--font-ui);
+}
+
+.author-box-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--ink-tertiary);
+    margin-bottom: 4px;
+}
+
+.author-box-text {
+    font-size: 14px;
+    color: var(--ink-secondary);
+    line-height: 1.5;
+}
+
 /* ═══════════════════════════════════════════
    TYPOGRAPHY
    ═══════════════════════════════════════════ */
