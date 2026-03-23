@@ -619,7 +619,7 @@ AIOS and this blueprint are **complementary, not competing.** AIOS solves the ru
 
 ## License
 
-© 2026 Gilad Pagi.
+© 2026 Gilad Pagi Ph.D..
 
 This work is licensed under the [Creative Commons Attribution 4.0 International License](https://creativecommons.org/licenses/by/4.0/) (CC BY 4.0). You are free to share, adapt, and build upon this material for any purpose, including commercial use, provided you give appropriate credit.
 
