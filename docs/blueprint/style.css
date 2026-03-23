@@ -635,7 +635,7 @@ body {
     .content-column h2 { break-after: avoid; }
     .content-column pre { white-space: pre-wrap; word-break: break-all; }
     .content-column a { border: none; color: var(--ink); }
-    .content-column a[href]::after { content: " (" attr(href) ")"; font-size: 0.85em; color: #666; }
+    .content-column a[href^="http"]::after { content: " (" attr(href) ")"; font-size: 0.85em; color: #666; }
 }
 
 /* ═══════════════════════════════════════════

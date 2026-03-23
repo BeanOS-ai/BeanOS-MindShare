@@ -5,7 +5,7 @@ An operating model for running a company where AI agents are first-class partici
 **Author:** [Gilad Pagi](https://www.linkedin.com/in/giladpagi/)
 **Version:** 3
 **Date:** March 2026
-**Website:** [BeanOS.ai](https://beanos.ai)
+**Website:** [BeanOS.ai](https://beanos.ai/blueprint/)
 
 ---
 
@@ -19,7 +19,7 @@ The document is organized in two parts:
 
 ## Read the Blueprint
 
-**[Read on BeanOS.ai →](https://beanos.ai)**
+**[Read on BeanOS.ai →](https://beanos.ai/blueprint/)**
 
 Or read the source: [`blueprint.md`](blueprint.md)
 

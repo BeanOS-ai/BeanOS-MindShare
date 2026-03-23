@@ -4,24 +4,24 @@
 (function() {
     'use strict';
 
-    var tocLinks = document.querySelectorAll('.toc-link');
-    var sections = [];
+    const tocLinks = document.querySelectorAll('.toc-link');
+    const sections = [];
 
     tocLinks.forEach(function(link) {
-        var href = link.getAttribute('href');
+        const href = link.getAttribute('href');
         if (href && href.startsWith('#')) {
-            var target = document.getElementById(href.slice(1));
+            const target = document.getElementById(href.slice(1));
             if (target) sections.push({ el: target, link: link });
         }
     });
 
-    var ticking = false;
+    let ticking = false;
 
     function updateActive() {
-        var scrollY = window.scrollY + 120;
-        var active = null;
+        const scrollY = window.scrollY + 120;
+        let active = null;
 
-        for (var i = sections.length - 1; i >= 0; i--) {
+        for (let i = sections.length - 1; i >= 0; i--) {
             if (sections[i].el.offsetTop <= scrollY) {
                 active = sections[i];
                 break;
@@ -49,9 +49,9 @@
 (function() {
     'use strict';
 
-    var toggle = document.getElementById('tocToggle');
-    var sidebar = document.getElementById('sidebar');
-    var overlay = document.getElementById('sidebarOverlay');
+    const toggle = document.getElementById('tocToggle');
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('sidebarOverlay');
 
     function openSidebar() {
         sidebar.classList.add('open');

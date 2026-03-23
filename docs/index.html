@@ -30,8 +30,10 @@
 
     <!-- Security -->
     <meta http-equiv="Content-Security-Policy"
-          content="default-src 'self'; script-src 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://www.google-analytics.com https://www.googletagmanager.com; connect-src https://www.google-analytics.com https://analytics.google.com https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com; frame-ancestors 'none'; base-uri 'self'; form-action 'none';">
+          content="default-src 'self'; script-src 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://www.google-analytics.com https://www.googletagmanager.com; connect-src https://www.google-analytics.com https://analytics.google.com https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com; frame-ancestors 'none'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests;">
     <meta name="referrer" content="strict-origin-when-cross-origin">
+    <link rel="canonical" href="https://beanos.ai/">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -235,15 +237,15 @@
     </style>
 </head>
 <body>
-    <canvas id="particles-canvas"></canvas>
-    <div class="orb orb-1"></div>
-    <div class="orb orb-2"></div>
-    <div class="orb orb-3"></div>
+    <canvas id="particles-canvas" aria-hidden="true" role="presentation"></canvas>
+    <div class="orb orb-1" aria-hidden="true"></div>
+    <div class="orb orb-2" aria-hidden="true"></div>
+    <div class="orb orb-3" aria-hidden="true"></div>
 
     <main class="main-wrapper">
         <div class="glass-card">
             <div class="brand">
-                <p class="brand-name">BeanOS.AI</p>
+                <h1 class="brand-name">BeanOS.AI</h1>
                 <div class="brand-line"></div>
             </div>
 
@@ -268,6 +270,7 @@
 
     <script>
         (function () {
+            if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
             var canvas = document.getElementById('particles-canvas');
             var ctx = canvas.getContext('2d');
             var particles = [];

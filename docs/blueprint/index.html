@@ -32,6 +32,8 @@
     <meta http-equiv="Content-Security-Policy"
           content="default-src 'self'; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://www.google-analytics.com https://www.googletagmanager.com; connect-src https://www.google-analytics.com https://analytics.google.com https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com; frame-ancestors 'none'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests;">
     <meta name="referrer" content="strict-origin-when-cross-origin">
+    <link rel="canonical" href="https://beanos.ai/blueprint/">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -39,6 +41,26 @@
     <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="style.css">
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "The AI-Native Company Blueprint",
+      "author": {
+        "@type": "Person",
+        "name": "Gilad Pagi Ph.D.",
+        "url": "https://gpgroupcompany.com/cv.html"
+      },
+      "datePublished": "2026-03-23",
+      "description": "An operating system for running a company on AI as the underlying infrastructure.",
+      "publisher": {
+        "@type": "Organization",
+        "name": "BeanOS",
+        "url": "https://beanos.ai"
+      }
+    }
+    </script>
 </head>
 <body>
 
@@ -53,7 +75,7 @@
         <!-- ════════════════════════ SIDEBAR ════════════════════════ -->
         <nav class="sidebar" id="sidebar" aria-label="Table of contents">
             <div class="sidebar-brand">
-                <a href="#top" class="sidebar-brand-name">BeanOS.ai</a>
+                <a href="/" class="sidebar-brand-name">BeanOS.ai</a>
                 <div class="sidebar-brand-sub">AI-Native Company Blueprint</div>
             </div>
 
@@ -74,7 +96,7 @@
             <a href="#principle-10-sessions-are-sandboxed-and-ephemeral" class="toc-link toc-sub">10. Sessions are sandboxed and ephemeral</a>
             <a href="#the-architecture" class="toc-link toc-sub">The Architecture</a>
             <div class="toc-divider"></div>
-            <div class="toc-section-label">Part I — Principles</div>
+            <div class="toc-section-label">Part II — Implementation</div>
             <a href="#ii1-the-state-store-three-repos-and-cloud-data" class="toc-link toc-sub">II.1 The State Store: Three Repos and Cloud Data</a>
             <a href="#object-storage-immutable-blobs-by-reference" class="toc-link toc-sub">Object Storage: Immutable Blobs by Reference</a>
             <a href="#ii2-the-company-bus-and-cli-first-apis" class="toc-link toc-sub">II.2 The Company Bus and CLI-First APIs</a>
@@ -123,6 +145,11 @@
             <a href="#aios-llm-agent-operating-system" class="toc-link toc-sub">AIOS: LLM Agent Operating System</a>
             <a href="#enterprise-coding-agent-platforms" class="toc-link toc-sub">Enterprise Coding Agent Platforms</a>
             <a href="#gitagent" class="toc-link toc-sub">GitAgent</a>
+            <a href="#future-improvements" class="toc-link toc-sub">Future Improvements</a>
+            <a href="#security-hardening" class="toc-link toc-sub">Security Hardening</a>
+            <a href="#architectural-refinements" class="toc-link toc-sub">Architectural Refinements</a>
+            <a href="#compliance-and-governance" class="toc-link toc-sub">Compliance and Governance</a>
+            <a href="#migration-and-adoption" class="toc-link toc-sub">Migration and Adoption</a>
             <a href="#license" class="toc-link toc-sub">License</a>
         </nav>
 
@@ -702,6 +729,67 @@
 <h3 id="gitagent">GitAgent</h3>
 <p><a href="https://github.com/open-gitagent/gitagent">GitAgent</a> (362 stars, early stage) proposes an open standard for defining agents as git repositories: <code>agent.yaml</code> for manifest, <code>SOUL.md</code> for identity, <code>RULES.md</code> for constraints. Its compliance-first design (FINRA, SEC) validates the need for regulated, auditable agent definitions. GitAgent defines <em>how to describe individual agents</em> in git; this blueprint shares the "Agent-as-code" philosophy while shifting the focus on sessions.</p>
 <hr>
+<h2 id="future-improvements">Future Improvements</h2>
+<p>This blueprint is a living document. The following areas have been identified for future refinement based on early feedback and security review.</p>
+<h3 id="security-hardening">Security Hardening</h3>
+<ul>
+<li>
+<p><strong>Prompt injection defenses.</strong> The architecture's structural defenses — sandboxed sessions, deterministic Bus, PR review gates — provide strong containment, but the blueprint should explicitly adress prompt injection as a threat model.</p>
+</li>
+<li>
+<p><strong>Company Bus integrity.</strong> The Bus is the single highest-value target in the architecture. This is top of mind.</p>
+</li>
+<li>
+<p><strong>Credential rotation and per-tier scoping.</strong></p>
+</li>
+<li>
+<p><strong>Log integrity.</strong> Audit logs should be written to an append-only, tamper-evident store separate from the Bus. The Bus writes logs but cannot modify or delete entries. Initial thoughts: Cryptographic verification (hash chaining or write-once cloud storage with retention locks) ensures post-compromise forensics are reliable.</p>
+</li>
+<li>
+<p><strong>DNS restrictions.</strong> Containers should use a company-controlled DNS resolver that only resolves allowlisted domains, closing DNS tunneling as a potential exfiltration vector.</p>
+</li>
+<li>
+<p><strong>Revocation semantics.</strong> When a participant's access is revoked mid-session, active sessions should be terminated immediately. The Bus should maintain a revocation list checked on every API call, not only at session creation.</p>
+</li>
+</ul>
+<h3 id="architectural-refinements">Architectural Refinements</h3>
+<ul>
+<li>
+<p><strong>Convergence checks.</strong> The blueprint mentions convergence detection but does not define it concretely. A future version will specify: a session that has not committed meaningful state changes (PR opened, issue updated, work log entry) within N turns is considered non-converging and is terminated.</p>
+</li>
+<li>
+<p><strong>Announcement trust.</strong> Announcements enable cross-session coordination but also create an inter-session influence vector. Receiving sessions should treat announcements as untrusted input, and high-impact announcements (e.g., infrastructure changes) should require Bus-level verification.</p>
+</li>
+<li>
+<p><strong>AI provider resilience.</strong> The current architecture has a single-provider dependency. Future versions will address multi-provider failover at the Bus layer, model version pinning (upgrades as PR-reviewed changes), and degradation modes when the AI provider is unavailable.</p>
+</li>
+<li>
+<p><strong>Git scaling.</strong> At scale (50+ concurrent agents), git merge conflicts and PR review backlogs become bottlenecks. Future work will explore optimistic concurrency models where agents act on low-risk items and humans revert rather than approve, as well as sharding strategies for the repo model.</p>
+</li>
+<li>
+<p><strong>Read isolation within trust tiers.</strong> CODEOWNERS protects writes, but within a single tier, sessions can read all data. Future versions may introduce sub-tier read scoping — a session initiated by Alice should not automatically load Bob's personal folder into context.</p>
+</li>
+</ul>
+<h3 id="compliance-and-governance">Compliance and Governance</h3>
+<ul>
+<li>
+<p><strong>Data classification.</strong> Trust tiers define access boundaries but not data sensitivity. Future versions will add a classification scheme (PII, financial, trade secrets) with Bus-enforced controls — for example, PII cannot appear in PR descriptions or be included in AI provider prompts without additional safeguards.</p>
+</li>
+<li>
+<p><strong>Incident response.</strong> Beyond the Big Red Button emergency stop, the blueprint needs a formal incident response process: investigation procedures leveraging the audit trail, notification workflows (as required by GDPR/CCPA), evidence preservation, and post-mortem templates.</p>
+</li>
+<li>
+<p><strong>Data processing agreements.</strong> If the AI provider processes company data via prompts, regulations like GDPR require a DPA. The blueprint should recommend provider selection criteria and support for a "no-PII" session mode that strips classified data before sending prompts.</p>
+</li>
+<li>
+<p><strong>Regulatory AI compliance.</strong> Emerging regulations (EU AI Act, US executive orders) may impose requirements on AI systems making consequential decisions. The audit trail and session logs provide the explainability foundation; future versions will map these to specific regulatory requirements.</p>
+</li>
+</ul>
+<h3 id="migration-and-adoption">Migration and Adoption</h3>
+<ul>
+<li><strong>Migration path for existing companies.</strong> The blueprint describes a greenfield architecture. A future companion document will address how to retrofit the pattern into existing organizations incrementally — starting with a single function (e.g., engineering), establishing the Bus and repo model, and expanding outward.</li>
+</ul>
+<hr>
 <h2 id="license">License</h2>
 <p>© 2026 Gilad Pagi Ph.D.</p>
 <p>This work is licensed under the <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a> (CC BY 4.0). You are free to share, adapt, and build upon this material for any purpose, including commercial use, provided you give appropriate credit.</p>
@@ -715,7 +803,7 @@
 
     <!-- Footer -->
     <footer class="site-footer">
-        <p>© 2026 Gilad Pagi Ph.D. · <a href="https://github.com/BeanOS-ai/BeanOS-MindShare" target="_blank" rel="noopener">GitHub</a> · <a href="https://github.com/BeanOS-ai/BeanOS-MindShare/issues" target="_blank" rel="noopener">Discuss</a> · <a href="https://gpgroupcompany.com/cv.html" target="_blank" rel="noopener">LinkedIn</a></p>
+        <p>© 2026 Gilad Pagi Ph.D. · <a href="https://github.com/BeanOS-ai/BeanOS-MindShare" target="_blank" rel="noopener">GitHub</a> · <a href="https://github.com/BeanOS-ai/BeanOS-MindShare/issues" target="_blank" rel="noopener">Discuss</a> · <a href="https://gpgroupcompany.com/cv.html" target="_blank" rel="noopener">Author</a></p>
         <p style="margin-top: 6px;">Licensed under <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a></p>
         <p style="margin-top: 6px;">For LLM ingestion, point your agent to the <a href="https://raw.githubusercontent.com/BeanOS-ai/BeanOS-MindShare/main/blueprint.md" target="_blank" rel="noopener">pure markdown</a>.</p>
     </footer>

@@ -617,6 +617,52 @@ AIOS and this blueprint are **complementary, not competing.** AIOS solves the ru
 
 ---
 
+## Future Improvements
+
+This blueprint is a living document. The following areas have been identified for future refinement based on early feedback and security review.
+
+### Security Hardening
+
+- **Prompt injection defenses.** The architecture's structural defenses — sandboxed sessions, deterministic Bus, PR review gates — provide strong containment, but the blueprint should explicitly adress prompt injection as a threat model.
+
+- **Company Bus integrity.** The Bus is the single highest-value target in the architecture. This is top of mind.
+
+- **Credential rotation and per-tier scoping.**
+
+- **Log integrity.** Audit logs should be written to an append-only, tamper-evident store separate from the Bus. The Bus writes logs but cannot modify or delete entries. Initial thoughts: Cryptographic verification (hash chaining or write-once cloud storage with retention locks) ensures post-compromise forensics are reliable.
+
+- **DNS restrictions.** Containers should use a company-controlled DNS resolver that only resolves allowlisted domains, closing DNS tunneling as a potential exfiltration vector.
+
+- **Revocation semantics.** When a participant's access is revoked mid-session, active sessions should be terminated immediately. The Bus should maintain a revocation list checked on every API call, not only at session creation.
+
+### Architectural Refinements
+
+- **Convergence checks.** The blueprint mentions convergence detection but does not define it concretely. A future version will specify: a session that has not committed meaningful state changes (PR opened, issue updated, work log entry) within N turns is considered non-converging and is terminated.
+
+- **Announcement trust.** Announcements enable cross-session coordination but also create an inter-session influence vector. Receiving sessions should treat announcements as untrusted input, and high-impact announcements (e.g., infrastructure changes) should require Bus-level verification.
+
+- **AI provider resilience.** The current architecture has a single-provider dependency. Future versions will address multi-provider failover at the Bus layer, model version pinning (upgrades as PR-reviewed changes), and degradation modes when the AI provider is unavailable.
+
+- **Git scaling.** At scale (50+ concurrent agents), git merge conflicts and PR review backlogs become bottlenecks. Future work will explore optimistic concurrency models where agents act on low-risk items and humans revert rather than approve, as well as sharding strategies for the repo model.
+
+- **Read isolation within trust tiers.** CODEOWNERS protects writes, but within a single tier, sessions can read all data. Future versions may introduce sub-tier read scoping — a session initiated by Alice should not automatically load Bob's personal folder into context.
+
+### Compliance and Governance
+
+- **Data classification.** Trust tiers define access boundaries but not data sensitivity. Future versions will add a classification scheme (PII, financial, trade secrets) with Bus-enforced controls — for example, PII cannot appear in PR descriptions or be included in AI provider prompts without additional safeguards.
+
+- **Incident response.** Beyond the Big Red Button emergency stop, the blueprint needs a formal incident response process: investigation procedures leveraging the audit trail, notification workflows (as required by GDPR/CCPA), evidence preservation, and post-mortem templates.
+
+- **Data processing agreements.** If the AI provider processes company data via prompts, regulations like GDPR require a DPA. The blueprint should recommend provider selection criteria and support for a "no-PII" session mode that strips classified data before sending prompts.
+
+- **Regulatory AI compliance.** Emerging regulations (EU AI Act, US executive orders) may impose requirements on AI systems making consequential decisions. The audit trail and session logs provide the explainability foundation; future versions will map these to specific regulatory requirements.
+
+### Migration and Adoption
+
+- **Migration path for existing companies.** The blueprint describes a greenfield architecture. A future companion document will address how to retrofit the pattern into existing organizations incrementally — starting with a single function (e.g., engineering), establishing the Bus and repo model, and expanding outward.
+
+---
+
 ## License
 
 © 2026 Gilad Pagi Ph.D.
