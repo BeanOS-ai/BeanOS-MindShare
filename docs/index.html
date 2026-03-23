@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The AI-Native Company Blueprint — BeanOS</title>
-    <meta name="description" content="An operating model for running a company where AI agents are first-class participants, not tools. By Gilad Pagi.">
+    <meta name="description" content="An operating system for running a company on AI as the underlying infrastructure. By Gilad Pagi.">
     <meta name="author" content="Gilad Pagi">
 
     <!-- OpenGraph -->
     <meta property="og:title" content="The AI-Native Company Blueprint">
-    <meta property="og:description" content="An operating model for running a company where AI agents are first-class participants, not tools.">
+    <meta property="og:description" content="An operating system for running a company on AI as the underlying infrastructure.">
     <meta property="og:type" content="article">
     <meta property="og:url" content="https://beanos.ai">
     <meta property="og:site_name" content="BeanOS">
@@ -17,7 +17,7 @@
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="The AI-Native Company Blueprint">
-    <meta name="twitter:description" content="An operating model for running a company where AI agents are first-class participants, not tools.">
+    <meta name="twitter:description" content="An operating system for running a company on AI as the underlying infrastructure.">
 
     <!-- Security -->
     <meta http-equiv="Content-Security-Policy"
@@ -36,6 +36,7 @@
     <!-- WIP Banner -->
     <div class="wip-banner">
         ⚠ Work in Progress — This is an early draft shared for feedback. <a href="https://github.com/BeanOS-ai/BeanOS-MindShare/issues" target="_blank" rel="noopener">Share your thoughts →</a>
+        · For LLM ingestion, point your agent to the <a href="https://raw.githubusercontent.com/BeanOS-ai/BeanOS-MindShare/main/blueprint.md" target="_blank" rel="noopener">pure markdown</a>.
     </div>
 
     <div class="page-layout">
@@ -48,6 +49,7 @@
             </div>
 
             <a href="#the-ai-native-company-blueprint" class="toc-link">The AI-Native Company Blueprint</a>
+            <a href="#tldr--executive-summary" class="toc-link toc-sub">TL;DR / Executive Summary</a>
             <a href="#what-this-is" class="toc-link toc-sub">What This Is</a>
             <div class="toc-divider"></div>
             <div class="toc-section-label">Part I — Principles</div>
@@ -103,11 +105,11 @@
             <div class="toc-divider"></div>
             <a href="#frequently-asked-questions" class="toc-link">Frequently Asked Questions</a>
             <div class="toc-divider"></div>
-            <a href="#appendix-a-the-company-as-an-operating-system" class="toc-link">Appendix A: The Company as an Operating System</a>
+            <a href="#the-company-as-an-operating-system" class="toc-link">The Company as an Operating System</a>
             <a href="#concept-map" class="toc-link toc-sub">Concept Map</a>
             <a href="#the-deepest-parallel-kernel-space-vs-user-space" class="toc-link toc-sub">The Deepest Parallel: Kernel Space vs. User Space</a>
             <a href="#the-scheduler-parallel-from-time-sharing-to-work-sharing" class="toc-link toc-sub">The Scheduler Parallel: From Time-Sharing to Work-Sharing</a>
-            <a href="#appendix-b-prior-art--related-work" class="toc-link toc-sub">Appendix B: Prior Art &amp; Related Work</a>
+            <a href="#appendix-a-prior-art--related-work" class="toc-link toc-sub">Appendix A: Prior Art &amp; Related Work</a>
             <a href="#the-llm-os-metaphor" class="toc-link toc-sub">The LLM OS Metaphor</a>
             <a href="#aios-llm-agent-operating-system" class="toc-link toc-sub">AIOS: LLM Agent Operating System</a>
             <a href="#enterprise-coding-agent-platforms" class="toc-link toc-sub">Enterprise Coding Agent Platforms</a>
@@ -125,7 +127,7 @@
                 <!-- Article Header -->
                 <header class="article-header">
                     <h1>The AI-Native Company Blueprint</h1>
-                    <p class="article-subtitle">An operating model for running a company where AI agents are first-class participants, not tools.</p>
+                    <p class="article-subtitle">An operating system for running a company on AI as the underlying infrastructure.</p>
                     <div class="article-meta">
                         <span class="author-name"><a href="https://www.linkedin.com/in/giladpagi/" target="_blank" rel="noopener">Gilad Pagi</a></span>
                         <span class="meta-dot">·</span>
@@ -139,6 +141,12 @@
 <blockquote>
 <p><strong>Work in Progress</strong> — This is an early draft shared for feedback. Comments and discussion welcome via <a href="https://github.com/BeanOS-ai/BeanOS-MindShare/issues">GitHub Issues</a> or <a href="https://www.linkedin.com/in/giladpagi/">LinkedIn</a>.</p>
 </blockquote>
+<h2 id="tldr--executive-summary">TL;DR / Executive Summary</h2>
+<p>A set of principles and an implementation walkthrough for building an AI-native company from the ground up — freeing humans to review work, steer, and make decisions rather than running low-level actions. The core principles: the company is defined by its version-controlled data and code; all company systems expose an API; a unified deterministic layer (the Company Bus / Company Kernel) mediates all API access, permission control, security, and audit logging; sandboxed AI sessions call through this layer for any action with side effects; and a task management mechanism progresses the company forward while halting when the human review backlog grows too large.</p>
+<p>For technical readers: this operating model gives rise to the company as an operating system. The company has a kernel for all privileged APIs, creating an elegant separation of kernel-space vs. user-space actions. AI sessions are user-space sandboxed processes sending system calls to the company kernel for any action that affects the company.</p>
+<blockquote>
+<p><em>Note: This text reflects the author's perspective, informed by experience and early results. Implementing AI in business settings is still new and evolving, and must be approached with humility and a commitment to continuous learning.</em></p>
+</blockquote>
 <h2 id="what-this-is">What This Is</h2>
 <p>This document describes an operating model for a company where AI agents do the work and humans make decisions. It is not about using AI to assist employees — it is about building the company so that AI operate it, and humans steer.</p>
 <blockquote>
@@ -146,6 +154,7 @@
 — Jensen Huang, NVIDIA CEO, GTC 2026 (March 17, 2026)</p>
 </blockquote>
 <p>The document is organized in two parts. <strong>Part I</strong> establishes the foundational principles — tool-agnostic and durable. <strong>Part II</strong> presents one opinionated implementation of those principles, with specific technology choices and design decisions. The principles stand on their own; the implementation is one way to realize them.</p>
+<p>We then explore how this operating model maps elegantly onto the architecture of an operating system — a more conceptual section that can inform how we think about building and evolving AI-native organizations.</p>
 <hr>
 <h1 id="part-i-principles">Part I: Principles</h1>
 <h2 id="principle-1-unified-versioned-state">Principle 1: Unified, versioned state</h2>
@@ -212,33 +221,7 @@
 <hr>
 <h2 id="the-architecture">The Architecture</h2>
 <p>The diagram below shows the conceptual layers. Arrows show the direction of interaction — humans initiate sessions and UI views; both are gated by the trust layer; actions execute against the API layer; all changes land in company state.</p>
-<pre><code>┌─────────────────────────────────────────────────────────────────┐
-│                          HUMANS                                  │
-│              review · approve · steer · set direction            │
-└──────────────────────┬──────────────────────┬───────────────────┘
-                       │                      │
-           ┌───────────▼──────────┐  ┌────────▼──────────────────┐
-           │       SESSIONS       │  │        UI VIEWS            │
-           │  sandboxed · scoped  │  │  dashboards · reports      │
-           └───────────┬──────────┘  └────────┬──────────────────┘
-                       │                      │
-                       └──────────┬───────────┘
-                                  │
-┌─────────────────────────────────▼───────────────────────────────┐
-│                       TRUST LAYER                                │
-│    permission groups · session scope · read/write boundaries     │
-└─────────────────────────────────┬───────────────────────────────┘
-                                  │
-┌─────────────────────────────────▼───────────────────────────────┐
-│                      PROGRAMMABLE APIs                           │
-│         all actions as CLIs · company bus · credential vault     │
-└─────────────────────────────────┬───────────────────────────────┘
-                                  │
-┌─────────────────────────────────▼───────────────────────────────┐
-│                      COMPANY STATE                               │
-│  versioned storage · transactional data · work management data   │
-└─────────────────────────────────────────────────────────────────┘
-</code></pre>
+<img src="architecture_diagram.svg" alt="Architecture diagram: Humans → Sessions / UI Views → Trust Layer → Programmable APIs → Company State" class="arch-diagram" style="width:100%;max-width:680px;display:block;margin:24px auto;">
 <p><em>Sessions and UI Views are peer interaction modes — both feed into the trust layer, which gates all access to the API and state layers. Work management data lives inside company state, not as a separate layer — it is the engine that drives the company forward from within.</em></p>
 <hr>
 <h1 id="part-ii-opinionated-implementation">Part II: Opinionated Implementation</h1>
@@ -564,8 +547,6 @@
 <p>The health check registry is the company's test suite. Before deploying a new integration, a new workflow, or a new cron job, the author also writes the assertion that will continuously verify it is working. A feature is not done until its health assertion is green and running. This is Test-Driven Operations: define what healthy looks like before the work starts, and verify it continuously once it ships.</p>
 <hr>
 <h1 id="frequently-asked-questions">Frequently Asked Questions</h1>
-<p><strong>What is the simplest way to summarize this blueprint?</strong></p>
-<p>Infrastructure as Code, but for agents running the company. Just as IaC declares the desired state of cloud infrastructure in version-controlled files and lets automation converge to that state, this blueprint declares the desired state of company operations — workflows, knowledge, schedules, roles, guardrails — in repos and lets agents converge to it.</p>
 <p><strong>What prevents an agent from going rogue?</strong></p>
 <p>Defense in depth: (1) The Company Bus limits external actions and holds all credentials. (2) Sessions are sandboxed containers with no direct internet access. (3) PRs require human review before taking effect. (4) Session guardrails (turn limits, cost ceilings, convergence checks) prevent runaway sessions. (5) All actions are logged with full attribution. (6) Circuit breakers provide emergency stops. (7) The Big Red Button freezes all agent writes company-wide. (8) Heuristics at the Company Bus level detect anomalous session behavior — unexpected call volumes, unusual credential requests, out-of-pattern API usage — and can halt session execution proactively.</p>
 <p><strong>What if a session container is hijacked?</strong></p>
@@ -573,7 +554,7 @@
 <p><strong>Why one agent per trust boundary instead of one per person?</strong></p>
 <p>Specialization is achieved through prompt focus, not through limiting data access. A single agent per trust boundary functions as an organizational entity — it sees the full picture, detects contradictions between people's assumptions, and coordinates cross-person work. Per-person agents would be siloed, each validating their owner's worldview without cross-checking.</p>
 <p><strong>How do non-technical people use this?</strong></p>
-<p>Through the agent of whatever trust boundary they belong to. They speak in natural language; the agent translates to repo operations. They never open a terminal. Auxiliary UIs exist for common actions, but these are thin layers on top of the APIs — never the source of truth.</p>
+<p>Through sessions of whatever trust boundary they belong to. They speak in natural language; the agent translates to repo operations. They never open a terminal. Auxiliary UIs exist for common actions, but these are thin layers on top of the APIs — never the source of truth.</p>
 <p><strong>What about tools required for compliance (QuickBooks, etc.)?</strong></p>
 <p>If an external system provides meaningful value and exposes an API, we can treat it as part of the company state. However, if external software is required only for compliance and otherwise creates data access friction, we use mirroring: a sync mechanism maintains a mirror in the repo or internal DB so agents can operate on the data. Sync cron jobs keep them reconciled.</p>
 <p><strong>Is this tied to a specific AI vendor or cloud provider?</strong></p>
@@ -589,9 +570,11 @@
 <p><strong>How does the blueprint handle GDPR right to erasure, given Git's immutable history?</strong></p>
 <p>HR-sensitive content belongs in the DB, never in repos. The ops agent must never write sensitive personal information (salary, health accommodations, disciplinary notes) into repo files — that content goes in the DB, which has clean deletion semantics. For audit logs: log the <em>event</em>, not the <em>content</em> — "field [redacted] was deleted" rather than storing the old value. For backups: GDPR accepts that backups contain deleted data, as long as when a backup is restored, deletions are re-applied before the system goes live.</p>
 <p><strong>Does the blueprint require specific tools for repos, email, or chat?</strong></p>
-<p>No. What matters is that each system exposes a CLI (or can be wrapped in one). GitHub, GitLab, or self-hosted git for repos; Gmail, Outlook, or any SMTP system for email; Slack, Google Chat, Teams, Telegram for chat — all work. The blueprint is tool-agnostic at the integration layer.</p>
+<p>No. What matters is that each system exposes an API or a CLI (or can be wrapped in one). GitHub, GitLab, or self-hosted git for repos; Gmail, Outlook, or any SMTP system for email; Slack, Google Chat, Teams, Telegram for chat — all work. The blueprint is tool-agnostic at the integration layer.</p>
+<p><strong>Won't giving each session access to all the knowledge slow things down?</strong></p>
+<p>Convergence to a meaningful result per session is the top concern. Speed is secondary — we are operating a company where humans need to review outcomes, provide feedback, and approve. Humans are the rate-limiting step by design, which relieves the pressure to make AI sessions faster. Sessions can explore, iterate, self-correct, and verify before presenting an outcome for review or approval.</p>
 <hr>
-<h1 id="appendix-a-the-company-as-an-operating-system">Appendix A: The Company as an Operating System</h1>
+<h1 id="the-company-as-an-operating-system">The Company as an Operating System</h1>
 <p>The AI-native company operating model maps surprisingly cleanly onto the architecture of a computer operating system. An OS manages processes that share hardware resources. This blueprint manages sessions that share company resources. In both cases, a central privileged layer mediates all resource access, enforces permissions, provides isolation between workloads, and logs everything. Understanding the parallel helps build intuition for why the design is the way it is.</p>
 <h2 id="concept-map">Concept Map</h2>
 <table>
@@ -693,7 +676,7 @@
 <p>Early computers ran one program at a time. The OS scheduler made time-sharing possible — many processes could share one CPU by taking turns. The AI-native company does the same at the organizational level: one Company Bus, many sessions, taking turns on tasks dispatched by the work management system. The issue tracker is the run queue; SLA priorities are the scheduling policy; the flood valve prevents the queue from growing faster than it can drain.</p>
 <p>There is, however, an important difference from CPU scheduling. CPU-bound processes compete for a scarce compute resource. AI sessions are almost entirely <strong>I/O-bound</strong> — the dominant cost is waiting for inference responses from the AI provider. A session spends the vast majority of its wall-clock time waiting on API calls, not consuming compute at the Bus. This means a relatively modest Company Bus can serve many concurrent sessions simultaneously, the same way a web server handles thousands of concurrent connections despite running on modest hardware. The scheduling problem for the AI-native company is not resource contention at the Bus — it is queue management, SLA enforcement, and human review capacity.</p>
 <hr>
-<h2 id="appendix-b-prior-art--related-work">Appendix B: Prior Art &amp; Related Work</h2>
+<h2 id="appendix-a-prior-art--related-work">Appendix A: Prior Art &amp; Related Work</h2>
 <p>This blueprint builds on a growing body of work at the intersection of AI agents and organizational design. We acknowledge the following related work and explain how this blueprint relates to each.</p>
 <h3 id="the-llm-os-metaphor">The LLM OS Metaphor</h3>
 <p>Andrej Karpathy introduced the concept of the <a href="https://x.com/karpathy/status/1707437820045062561">"LLM as kernel process of a new Operating System"</a> in September 2023, mapping LLM internals to hardware: context window as RAM, inference as CPU, embeddings as filesystem. His framing crystallized the intuition that LLMs are not chatbots — they are general-purpose compute.</p>

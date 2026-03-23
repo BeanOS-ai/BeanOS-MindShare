@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 540" font-family="'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif">
+  <defs>
+    <filter id="shadow" x="-2%" y="-2%" width="104%" height="108%">
+      <feDropShadow dx="0" dy="1" stdDeviation="2" flood-color="#1e40af" flood-opacity="0.08"/>
+    </filter>
+    <marker id="arrowhead" markerWidth="8" markerHeight="6" refX="4" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6" fill="#94a3b8"/>
+    </marker>
+  </defs>
+
+  <!-- ══════════ USER SPACE background ══════════ -->
+  <rect x="56" y="4" width="624" height="218" rx="12" fill="#fafbfc" stroke="none"/>
+
+  <!-- ══════════ KERNEL SPACE background ══════════ -->
+  <rect x="56" y="228" width="624" height="304" rx="12" fill="#f0f5ff" stroke="none"/>
+
+  <!-- ══════════ Side labels ══════════ -->
+  <text x="22" y="116" text-anchor="middle" font-size="10" font-weight="700" fill="#64748b" letter-spacing="0.1em" transform="rotate(-90 22 116)">USER SPACE</text>
+  <text x="22" y="382" text-anchor="middle" font-size="10" font-weight="700" fill="#1e40af" letter-spacing="0.1em" transform="rotate(-90 22 382)">KERNEL SPACE</text>
+
+  <!-- ══════════ Divider line ══════════ -->
+  <line x1="56" y1="224" x2="680" y2="224" stroke="#94a3b8" stroke-width="1" stroke-dasharray="6,4"/>
+
+  <!-- ══════════ LAYER 1: HUMANS ══════════ -->
+  <rect x="80" y="16" width="580" height="68" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1" filter="url(#shadow)"/>
+  <text x="370" y="44" text-anchor="middle" font-size="15" font-weight="700" fill="#1e293b" letter-spacing="0.03em">HUMANS</text>
+  <text x="370" y="66" text-anchor="middle" font-size="12" fill="#64748b">review · approve · steer · set direction</text>
+
+  <!-- Arrows from HUMANS to SESSIONS and UI VIEWS -->
+  <line x1="260" y1="84" x2="260" y2="118" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+  <line x1="480" y1="84" x2="480" y2="118" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+
+  <!-- ══════════ LAYER 2: SESSIONS + UI VIEWS ══════════ -->
+  <rect x="80" y="120" width="280" height="68" rx="10" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="1" filter="url(#shadow)"/>
+  <text x="220" y="148" text-anchor="middle" font-size="14" font-weight="700" fill="#1e293b">SESSIONS</text>
+  <text x="220" y="170" text-anchor="middle" font-size="11.5" fill="#64748b">sandboxed · scoped</text>
+
+  <rect x="380" y="120" width="280" height="68" rx="10" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="1" filter="url(#shadow)"/>
+  <text x="520" y="148" text-anchor="middle" font-size="14" font-weight="700" fill="#1e293b">UI VIEWS</text>
+  <text x="520" y="170" text-anchor="middle" font-size="11.5" fill="#64748b">dashboards · reports</text>
+
+  <!-- Merging arrows from SESSIONS + UI VIEWS -->
+  <line x1="220" y1="188" x2="220" y2="206" stroke="#94a3b8" stroke-width="1.5"/>
+  <line x1="520" y1="188" x2="520" y2="206" stroke="#94a3b8" stroke-width="1.5"/>
+  <line x1="220" y1="206" x2="520" y2="206" stroke="#94a3b8" stroke-width="1.5"/>
+  <line x1="370" y1="206" x2="370" y2="248" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+
+  <!-- ══════════ LAYER 3: TRUST LAYER ══════════ -->
+  <rect x="80" y="250" width="580" height="68" rx="10" fill="#eff6ff" stroke="#93c5fd" stroke-width="1" filter="url(#shadow)"/>
+  <text x="370" y="278" text-anchor="middle" font-size="14" font-weight="700" fill="#1e40af">TRUST LAYER</text>
+  <text x="370" y="300" text-anchor="middle" font-size="11.5" fill="#3b82f6">permission groups · session scope · read/write boundaries</text>
+
+  <!-- Arrow to APIs -->
+  <line x1="370" y1="318" x2="370" y2="356" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+
+  <!-- ══════════ LAYER 4: PROGRAMMABLE APIs ══════════ -->
+  <rect x="80" y="358" width="580" height="68" rx="10" fill="#dbeafe" stroke="#60a5fa" stroke-width="1" filter="url(#shadow)"/>
+  <text x="370" y="386" text-anchor="middle" font-size="14" font-weight="700" fill="#1e40af">PROGRAMMABLE APIs</text>
+  <text x="370" y="408" text-anchor="middle" font-size="11.5" fill="#2563eb">all actions as CLIs · company bus · credential vault</text>
+
+  <!-- Arrow to State -->
+  <line x1="370" y1="426" x2="370" y2="464" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+
+  <!-- ══════════ LAYER 5: COMPANY STATE ══════════ -->
+  <rect x="80" y="466" width="580" height="68" rx="10" fill="#1e40af" stroke="#1e3a8a" stroke-width="1" filter="url(#shadow)"/>
+  <text x="370" y="494" text-anchor="middle" font-size="14" font-weight="700" fill="#ffffff">COMPANY STATE</text>
+  <text x="370" y="516" text-anchor="middle" font-size="11.5" fill="#bfdbfe">versioned storage · transactional data · work management</text>
+</svg>

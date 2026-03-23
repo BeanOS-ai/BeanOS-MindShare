@@ -2,6 +2,14 @@
 
 > **Work in Progress** — This is an early draft shared for feedback. Comments and discussion welcome via [GitHub Issues](https://github.com/BeanOS-ai/BeanOS-MindShare/issues) or [LinkedIn](https://www.linkedin.com/in/giladpagi/).
 
+## TL;DR / Executive Summary
+
+A set of principles and an implementation walkthrough for building an AI-native company from the ground up — freeing humans to review work, steer, and make decisions rather than running low-level actions. The core principles: the company is defined by its version-controlled data and code; all company systems expose an API; a unified deterministic layer (the Company Bus / Company Kernel) mediates all API access, permission control, security, and audit logging; sandboxed AI sessions call through this layer for any action with side effects; and a task management mechanism progresses the company forward while halting when the human review backlog grows too large.
+
+For technical readers: this operating model gives rise to the company as an operating system. The company has a kernel for all privileged APIs, creating an elegant separation of kernel-space vs. user-space actions. AI sessions are user-space sandboxed processes sending system calls to the company kernel for any action that affects the company.
+
+> *Note: This text reflects the author's perspective, informed by experience and early results. Implementing AI in business settings is still new and evolving, and must be approached with humility and a commitment to continuous learning.*
+
 ## What This Is
 
 This document describes an operating model for a company where AI agents do the work and humans make decisions. It is not about using AI to assist employees — it is about building the company so that AI operate it, and humans steer.
@@ -10,6 +18,8 @@ This document describes an operating model for a company where AI agents do the 
 > — Jensen Huang, NVIDIA CEO, GTC 2026 (March 17, 2026)
 
 The document is organized in two parts. **Part I** establishes the foundational principles — tool-agnostic and durable. **Part II** presents one opinionated implementation of those principles, with specific technology choices and design decisions. The principles stand on their own; the implementation is one way to realize them.
+
+We then explore how this operating model maps elegantly onto the architecture of an operating system — a more conceptual section that can inform how we think about building and evolving AI-native organizations.
 
 ---
 
@@ -484,10 +494,6 @@ The health check registry is the company's test suite. Before deploying a new in
 
 # Frequently Asked Questions
 
-**What is the simplest way to summarize this blueprint?**
-
-Infrastructure as Code, but for agents running the company. Just as IaC declares the desired state of cloud infrastructure in version-controlled files and lets automation converge to that state, this blueprint declares the desired state of company operations — workflows, knowledge, schedules, roles, guardrails — in repos and lets agents converge to it.
-
 **What prevents an agent from going rogue?**
 
 Defense in depth: (1) The Company Bus limits external actions and holds all credentials. (2) Sessions are sandboxed containers with no direct internet access. (3) PRs require human review before taking effect. (4) Session guardrails (turn limits, cost ceilings, convergence checks) prevent runaway sessions. (5) All actions are logged with full attribution. (6) Circuit breakers provide emergency stops. (7) The Big Red Button freezes all agent writes company-wide. (8) Heuristics at the Company Bus level detect anomalous session behavior — unexpected call volumes, unusual credential requests, out-of-pattern API usage — and can halt session execution proactively.
@@ -502,7 +508,7 @@ Specialization is achieved through prompt focus, not through limiting data acces
 
 **How do non-technical people use this?**
 
-Through the agent of whatever trust boundary they belong to. They speak in natural language; the agent translates to repo operations. They never open a terminal. Auxiliary UIs exist for common actions, but these are thin layers on top of the APIs — never the source of truth.
+Through sessions of whatever trust boundary they belong to. They speak in natural language; the agent translates to repo operations. They never open a terminal. Auxiliary UIs exist for common actions, but these are thin layers on top of the APIs — never the source of truth.
 
 **What about tools required for compliance (QuickBooks, etc.)?**
 
@@ -534,11 +540,15 @@ HR-sensitive content belongs in the DB, never in repos. The ops agent must never
 
 **Does the blueprint require specific tools for repos, email, or chat?**
 
-No. What matters is that each system exposes a CLI (or can be wrapped in one). GitHub, GitLab, or self-hosted git for repos; Gmail, Outlook, or any SMTP system for email; Slack, Google Chat, Teams, Telegram for chat — all work. The blueprint is tool-agnostic at the integration layer.
+No. What matters is that each system exposes an API or a CLI (or can be wrapped in one). GitHub, GitLab, or self-hosted git for repos; Gmail, Outlook, or any SMTP system for email; Slack, Google Chat, Teams, Telegram for chat — all work. The blueprint is tool-agnostic at the integration layer.
+
+**Won't giving each session access to all the knowledge slow things down?**
+
+Convergence to a meaningful result per session is the top concern. Speed is secondary — we are operating a company where humans need to review outcomes, provide feedback, and approve. Humans are the rate-limiting step by design, which relieves the pressure to make AI sessions faster. Sessions can explore, iterate, self-correct, and verify before presenting an outcome for review or approval.
 
 ---
 
-# Appendix A: The Company as an Operating System
+# The Company as an Operating System
 
 The AI-native company operating model maps surprisingly cleanly onto the architecture of a computer operating system. An OS manages processes that share hardware resources. This blueprint manages sessions that share company resources. In both cases, a central privileged layer mediates all resource access, enforces permissions, provides isolation between workloads, and logs everything. Understanding the parallel helps build intuition for why the design is the way it is.
 
@@ -579,7 +589,7 @@ There is, however, an important difference from CPU scheduling. CPU-bound proces
 
 ---
 
-## Appendix B: Prior Art & Related Work
+## Appendix A: Prior Art & Related Work
 
 This blueprint builds on a growing body of work at the intersection of AI agents and organizational design. We acknowledge the following related work and explain how this blueprint relates to each.
 
