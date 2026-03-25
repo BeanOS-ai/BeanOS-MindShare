@@ -17,6 +17,10 @@ This document describes an operating model for a company where AI agents do the 
 > *"Every company in the world today needs to have an OpenClaw strategy, an agentic system strategy. This is the new computer. This is as big of a deal as HTML, as big of a deal as Linux."*
 > — Jensen Huang, NVIDIA CEO, GTC 2026 (March 17, 2026)
 
+**Read this document with a greenfield mindset** — imagine building a company from the ground up, without the burden of migrating legacy systems or retrofitting existing workflows. The principles are easier to reason about when you are not asking "how do I get there from where I am?" but rather "what would I build if I started today?"
+
+**Scope: knowledge work delegated to AI.** Some businesses are inherently social and dependent on human relationships — a chef's network, an investor relationship, a therapist's rapport. Those are out of scope here. This document borrows the patterns exploding in software engineering — where AI agents already write, test, and ship code autonomously — and portrays a north star for an AI-native company where all data and knowledge work otherwise done by a human in front of a computer is delegated to AI.
+
 The document is organized in two parts. **Part I** establishes the foundational principles — tool-agnostic and durable. **Part II** presents one opinionated implementation of those principles, with specific technology choices and design decisions. The principles stand on their own; the implementation is one way to realize them.
 
 We then explore how this operating model maps elegantly onto the architecture of an operating system — a more conceptual section that can inform how we think about building and evolving AI-native organizations.
@@ -37,9 +41,9 @@ When a decision is made or an action is taken, the company advances its state. T
 
 > **Example we like — GitLab's handbook-first culture.** GitLab runs their company via a [version-controlled handbook](https://about.gitlab.com/handbook/): every policy, process, org structure, and decision lives in git. The discipline is enforced culturally: no decision is complete until it is documented there. For AI agents, this is an exemplar of Principle 1 (P1, hereafter) — a queryable, attributable, always-current source of company truth. GitLab's internal version is almost certainly richer still.
 
-## Principle 2: All actions must be programmable
+## Principle 2: actions are programmable
 
-Every action — creating, updating, sharing, transacting, filling out forms — must be executable via a programmatic interface. The goal is to ensure agents always have a direct path to execute any operation. While computer-use capabilities are improving, UIs add friction that can easily be avoided by treating APIs as first-class assets of the company.
+The goal is to have every action — creating, updating, sharing, transacting, filling out forms — executable via a programmatic interface, giving agents a direct path to execute any operation in scope. While computer-use capabilities are improving, UIs add friction that can easily be avoided by treating APIs as first-class assets of the company.
 
 > **Example we like — Google's internal developer tooling.** Every internal system at Google is reachable from the command line: either a purpose-built high-level CLI, or — where one doesn't exist — a generic tool that accepts a text-encoded protobuf and fires it as an RPC to an internal endpoint. No action requires a browser. And because the proto definitions live in the same monorepo as the services, the entire API surface is self-documenting and version-controlled — an agent can read the schema and know exactly what to send. An agent navigating Google's internal infrastructure has a complete programmatic surface for everything, with no UI-only dead ends. This is what P2 looks like at scale.
 
@@ -63,6 +67,8 @@ Every outcome produced by agents is explainable, since all agent knowledge comes
 
 AI-fluent employees who already have a supercharged local setup may push back on this. The payoff is that every capability — knowledge, memory, skills — becomes a company asset, shared across everyone and continuously improving.
 
+This principle is a derivative of P1 — if all company state is versioned, then agent definitions are naturally part of that state. We call it out separately because it stands on its own: a company can adopt P4 without adopting P1. Even in an organization where knowledge is still scattered across docs, emails, and people's heads, defining agents as shared, versioned infrastructure — rather than personal tools with private context — is a meaningful step that delivers value independently.
+
 ## Principle 5: Trust tiers define the company's permission structure
 
 Since the company is its data, access to that data defines organizational trust. The company is partitioned into trust tiers — groups of data with different read permissions. These tiers are declared and version-controlled as part of the company's state.
@@ -85,17 +91,21 @@ When humans initiate an interactive session, the session scope is the intersecti
 
 Agents produce work faster than humans can review it. The system keeps humans accountable for what enters company state by making the review burden manageable and well-structured.
 
-Write permissions are configurable: some parts of the company state may be fully delegated to agents (no human review required), others require human approval. This delegation is explicit, versioned, and a conscious choice by the humans who govern that data.
+When designed correctly, every change to company state has a human approver. Write permissions are configurable: some parts of the company state may be fully delegated to agents (no human review required), others require human approval. This delegation is explicit, versioned, and a conscious choice by the humans who govern that data.
 
-When agent output exceeds human review capacity, autonomous work pauses. The goal is to keep state transitions realistically reviewable, so accountability remains meaningful.
+The system includes a mechanism to streamline the approval process — and, critically, to halt autonomous work when the review backlog grows beyond human capacity. Without this, agent output compounds unchecked: PRs pile up, changes go unreviewed, and accountability becomes nominal. The goal is to keep state transitions realistically reviewable at all times, so that human approval remains a genuine act of judgment rather than a rubber stamp.
 
-## Principle 8: Everything is auditable and replayable
+This also shapes the profile of a valuable human employee in an AI-native company: a critical thinker who grasps the big picture, trusted with approving meaningful decisions — rather than spending their time gathering the artifacts to support decisions made by others.
 
-Every action, state transition, credential use, and session is logged with full attribution — who or what did it, in which session, under which permission scope, and when. The audit trail is a first-class output of the system, built into every layer.
+## Principle 8: AI work is fully auditable and replayable
 
-Session logs are first-class company data — high-churn by nature, stored in the transactional layer alongside issues and work logs. They enable full replay of past sessions, post-mortems, and — critically — automated self-correction: future sessions can learn from past ones, evolving agent behavior without human intervention beyond approving the resulting changes.
+Every AI action — every state transition, credential use, tool invocation, and session — is logged with full attribution: what was done, in which session, under which permission scope, and when. The audit trail is a first-class output of the system, built into every layer.
 
-Because all actions flow through a programmable layer and all state lives in versioned storage, comprehensive auditability emerges naturally from the architecture itself.
+Because all AI work flows through a programmable layer and all state lives in versioned storage, comprehensive auditability emerges naturally from the architecture. Every session can be replayed from its logs. Every outcome can be traced back to the knowledge and tools that produced it.
+
+Session logs are first-class company data — high-churn by nature, stored in the transactional layer alongside issues and work logs. They enable post-mortems and — critically — automated self-correction: future sessions can learn from past ones, evolving agent behavior without human intervention beyond approving the resulting changes.
+
+Retention policies (TTLs, archival schedules) apply to audit data like any other company data — the principle is completeness of capture, not indefinite storage.
 
 > **Example we like — LangSmith.** LangSmith traces every LLM call and tool invocation in a session: inputs, outputs, latency, token counts, and the full call tree. Traces are queryable via API, enabling automated evaluation and regression testing against past sessions. This is P8 for the AI layer specifically — and the right mental model for what the full audit trail should look like across all layers of the company.
 
@@ -204,6 +214,8 @@ This design makes object storage safe for autonomous agent use: a session can pr
 ### The Company Bus
 
 The foundation of the API layer is the **Company Bus** — a distributed server that owns all API integrations and all credentials. It is **purely deterministic — no LLM code, no non-deterministic logic.** Every call to an external system (email, calendar, CRM, cloud APIs, internal databases) goes through it. Being distributed, it scales horizontally and has no single point of failure — a requirement given that every session in the company depends on it.
+
+We later introduce the analogy of the Company Bus to an operating system kernel. Like a kernel, changes to the Bus require rigorous review and testing. A proper design makes it pluggable — new API integrations can be added without modifying the core — while a compromised API implementation does not compromise the rest of the Bus.
 
 Keeping the Bus deterministic is a hard architectural constraint. Scheduled jobs that require AI judgment are dispatched as messages to ephemeral session containers, which run them as autonomous sessions. The Bus is the scheduler and dispatcher; session containers are the workers. This separation keeps the Bus auditable, predictable, and easy to reason about — and ensures credentials and non-deterministic code never coexist in the same process.
 
@@ -627,7 +639,7 @@ AIOS and this blueprint are **complementary, not competing.** AIOS solves the ru
 
 This blueprint is a living document. The following areas are not fully addressed but are top of mind.
 
-**Security hardening** — Prompt injection deserves explicit treatment as a threat model, even though the architecture's structural defenses (sandboxed sessions, deterministic Bus, PR review gates) provide strong containment. Other open areas: Bus integrity monitoring, credential rotation and per-tier scoping, append-only tamper-evident audit logs, DNS restrictions to close tunneling vectors, and real-time revocation of mid-session access.
+**Security hardening** — Prompt injection deserves explicit treatment as a threat model, even though the architecture's structural defenses (sandboxed sessions, deterministic Bus, PR review gates) provide strong containment. Conceptually, the Company Bus is a single API layer — a good implementation should partition it so that a compromise of one API integration limits the blast radius rather than exposing everything. Other open areas: Bus integrity monitoring, credential rotation and per-tier scoping, append-only tamper-evident audit logs, DNS restrictions to close tunneling vectors, and real-time revocation of mid-session access. Security is top of mind for this blueprint and offers real value compared to the alternative: personal agentic setups where credentials are hoarded on local laptops with no centralized access control, auditing, or revocation.
 
 **Architectural refinements** — Convergence detection (when to stop a spiraling session), announcement trust (preventing cross-session influence via broadcast), and git scaling at 50+ concurrent sessions where merge conflicts and review backlogs become bottlenecks.
 
