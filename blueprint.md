@@ -2,17 +2,25 @@
 
 > **Work in Progress** — This is an early draft shared for feedback. Comments and discussion welcome via [GitHub Issues](https://github.com/BeanOS-ai/BeanOS-MindShare/issues) or [LinkedIn](https://www.linkedin.com/in/giladpagi/).
 
-## TL;DR / Executive Summary
+## TL;DR
 
-A set of principles and an implementation walkthrough for building an AI-native company from the ground up — freeing humans to review work, steer, and make decisions rather than running low-level actions. The core principles: the company is defined by its version-controlled data and code; all company systems expose an API; a unified deterministic layer (the Company Bus / Company Kernel) mediates all API access, permission control, security, and audit logging; sandboxed AI sessions call through this layer for any action with side effects; and a task management mechanism progresses the company forward while halting when the human review backlog grows too large.
+OpenClaw for businesses.
+
+## Executive Summary
+
+Every company can benefit from AI — regardless of its size or industry. AI is essentially *intelligence as a service*: on-demand cognitive work that was previously only available by hiring humans. Software companies are naturally going all-in, and those doing it right are reaping massive performance gains — engineers shipping 10x more code, entire workflows running autonomously, teams of five delivering what used to require fifty.
+
+But software companies already live in code, APIs, and version control — the natural habitat of AI agents. **How do we bring these patterns to everyone else?** To doctors' clinics managing patient scheduling and insurance claims. To retail stores optimizing inventory and vendor relationships. To car dealerships coordinating sales, financing, and service. To manufacturing plants running quality control, supply chain logistics, and compliance reporting.
+
+This document presents a set of principles and an implementation walkthrough for building an AI-native company from the ground up — borrowing the patterns that are working in software engineering and generalizing them into an operating model for any business. The core idea: the company is defined by its version-controlled data and code; systems expose an API; a unified deterministic layer (the Company Bus / Company Kernel) mediates all API access, permission control, security, and audit logging; sandboxed AI sessions call through this layer for any action with side effects; and a task management mechanism progresses the company forward while halting when the human review backlog grows too large.
 
 For technical readers: this operating model gives rise to the company as an operating system. The company has a kernel for all privileged APIs, creating an elegant separation of kernel-space vs. user-space actions. AI sessions are user-space sandboxed processes sending system calls to the company kernel for any action that affects the company.
 
-> *Note: This text reflects the author's perspective, informed by experience and early results. Implementing AI in business settings is still new and evolving, and must be approached with humility and a commitment to continuous learning.*
+> *Note: This text reflects the author's perspective, informed by experience and early, very promising, results. Implementing AI in business settings is still new and evolving, and must be approached with humility and a commitment to continuous learning.*
 
 ## What This Is
 
-This document describes an operating model for a company where AI agents do the work and humans make decisions and steer. You can think of it as OpenClaw strategy for an AI-Native business, going beyond just assisting employees.
+This document describes an operating model for a company where AI agents do the work and humans make decisions and steer. You can think of it as an OpenClaw strategy for an AI-native business, going beyond just assisting employees.
 
 > *"Every company in the world today needs to have an OpenClaw strategy, an agentic system strategy. This is the new computer. This is as big of a deal as HTML, as big of a deal as Linux."*
 > — Jensen Huang, NVIDIA CEO, GTC 2026 (March 17, 2026)
