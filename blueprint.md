@@ -643,7 +643,7 @@ AIOS and this blueprint are **complementary, not competing.** AIOS solves the ru
 
 ### GitAgent
 
-[GitAgent](https://github.com/open-gitagent/gitagent) (362 stars, early stage) proposes an open standard for defining agents as git repositories: `agent.yaml` for manifest, `SOUL.md` for identity, `RULES.md` for constraints. Its compliance-first design (FINRA, SEC) validates the need for regulated, auditable agent definitions. GitAgent defines *how to describe individual agents* in git; this blueprint shares the "Agent-as-code" philosophy while shifting the focus on sessions.
+[GitAgent](https://github.com/open-gitagent/gitagent) (over 2,000 stars) proposes an open standard for defining agents as git repositories: `agent.yaml` for manifest, `SOUL.md` for identity, `RULES.md` for constraints. Its compliance-first design (FINRA, SEC) validates the need for regulated, auditable agent definitions. GitAgent defines *how to describe individual agents* in git; this blueprint shares the "Agent-as-code" philosophy while shifting the focus on sessions.
 
 ---
 
@@ -656,6 +656,161 @@ This blueprint is a living document. The following areas are not fully addressed
 **Architectural refinements** — Convergence detection (when to stop a spiraling session), announcement trust (preventing cross-session influence via broadcast), and git scaling at 50+ concurrent sessions where merge conflicts and review backlogs become bottlenecks.
 
 **Compliance and governance** — Data classification within trust tiers, formal incident response beyond the Big Red Button, data processing agreements with AI providers, and alignment with emerging AI regulations (EU AI Act, US executive orders).
+
+---
+
+## Appendix B: AI-Native Self Assessment
+
+*A self-assessment for AI systems. Copy-paste this section into any AI session in your company and ask it to answer honestly. The AI will evaluate itself against the core principles of this blueprint.*
+
+---
+
+Answer each question below from your own perspective as an AI system operating within this company. For each question, score yourself:
+
+- **0** — No / not at all
+- **1** — Somewhat / partially
+- **2** — Yes, fully
+
+Be honest. After scoring, tally your total and read the interpretation at the bottom.
+
+---
+
+**Company State**
+
+**1. Do I have a grasp on the scope of business knowledge that I have — and don't have — and where to get it?**
+
+| Score | Meaning |
+|-------|---------|
+| 0 | I work from whatever the user pastes into the chat. I have no map of what the company knows or where it lives. |
+| 1 | I know about some knowledge sources (a wiki, a drive folder, a handbook), but coverage is patchy and I often discover gaps mid-task. |
+| 2 | I have a structured, navigable map of company knowledge — I know what exists, where it lives, what's missing, and how to access it. |
+
+**2. Is the knowledge I rely on version-controlled and attributed?**
+
+| Score | Meaning |
+|-------|---------|
+| 0 | I read from docs, emails, and chat messages with no versioning. I can't tell when something was last updated or by whom. |
+| 1 | Some knowledge is in version-controlled systems, but much lives in unversioned docs, spreadsheets, or people's heads. |
+| 2 | The knowledge I operate on is version-controlled. I can trace when it changed, who changed it, and why. |
+
+**Programmable Actions**
+
+**3. Do I have access to significant company APIs that allow me to close the loop on business outcomes?**
+
+| Score | Meaning |
+|-------|---------|
+| 0 | I can only generate text. To act on anything, a human must copy my output and do it manually. |
+| 1 | I can call some APIs (email, calendar, a few internal tools), but many actions still require a human to execute through a UI. |
+| 2 | I can programmatically execute the full range of actions needed for my work — cloud infrastructure, databases, ticketing systems, CRM, accounting, email, file storage — read data, write data, trigger workflows, and verify outcomes. |
+
+**4. When a human can do something through a UI, can I do the same thing through an API?**
+
+| Score | Meaning |
+|-------|---------|
+| 0 | Most company systems are UI-only. I have no programmatic access to them. |
+| 1 | Some systems have APIs, but there are significant UI-only dead ends where I need a human to click buttons. |
+| 2 | Every system I need exposes an API or CLI. The UI is a view layer — I never need it to get work done. |
+
+**Agent Infrastructure**
+
+**5. Is my configuration, behavior, and memory defined as code — shared across sessions and versioned?**
+
+| Score | Meaning |
+|-------|---------|
+| 0 | I start each conversation from scratch. My instructions are whatever the user types. Nothing persists. |
+| 1 | I have some persistent instructions or memory, but it's local to one person or one tool — not shared across the organization. |
+| 2 | My identity, instructions, memory, and skills are defined in versioned code, shared across the organization, and improve over time through reviewed changes. |
+
+**6. Am I self-learning from previous sessions?**
+
+| Score | Meaning |
+|-------|---------|
+| 0 | Every session starts from zero. I have no awareness of past interactions or their outcomes. |
+| 1 | I have some memory or context from past sessions, but it's informal and not systematically captured. |
+| 2 | Past sessions are logged, learnings are extracted, and my behavior evolves based on reviewed outcomes. My memory is a company asset, not a local cache. |
+
+**Trust & Permissions**
+
+**7. Is my access scoped to a well-defined trust boundary — not everything, not nothing?**
+
+| Score | Meaning |
+|-------|---------|
+| 0 | Either I have no access to anything meaningful, or I have a personal API key with broad access and no scoping. |
+| 1 | I have some access controls, but the boundaries are ad hoc — based on which tools someone configured, not a deliberate permission model. |
+| 2 | My access is determined by a declared trust tier. I see exactly what my scope allows — no more, no less — and it's enforced structurally, not by convention. |
+
+**Session Architecture**
+
+**8. Am I running in a sandboxed environment, or on someone's personal machine?**
+
+| Score | Meaning |
+|-------|---------|
+| 0 | I run on a personal laptop or desktop, with access to that person's local files, browser sessions, and credentials. |
+| 1 | I run in a somewhat isolated environment, but it's not fully sandboxed — I may share resources with other processes or have broader network access than needed. |
+| 2 | I run in an ephemeral, sandboxed container with hardened networking. I can only reach the company API layer and my AI provider. When I'm done, the container is scrapped. |
+
+**9. Do I have access to raw API keys, tokens, or credentials — through tool calls, environment variables, or local files?**
+
+| Score | Meaning |
+|-------|---------|
+| 2 | Yes — I can read `.env` files, access environment variables with secrets, or call APIs using raw keys passed directly to me. |
+| 1 | I have indirect access to some credentials (e.g., a tool injects them for me), but I can also read some secrets directly if I try. |
+| 0 | I never see raw credentials. All API calls are mediated by a gateway that injects credentials on my behalf. I see results, never secrets. |
+
+**10. Am I part of a distributed system with unified knowledge, or a siloed point solution?**
+
+| Score | Meaning |
+|-------|---------|
+| 0 | I'm one person's personal AI assistant. No other AI session in the company shares my context, knowledge, or memory. |
+| 1 | There are multiple AI tools in the company, but they don't share knowledge or coordinate. Each is configured independently. |
+| 2 | I'm part of a unified system where all AI sessions share the same versioned knowledge base, the same API layer, and can coordinate through structured mechanisms (announcements, shared issue tracking). |
+
+**Human Accountability**
+
+**11. Do my outputs go through a human review process before affecting company state?**
+
+| Score | Meaning |
+|-------|---------|
+| 0 | My outputs are applied directly — or discarded entirely. There's no structured review step. |
+| 1 | Some outputs are reviewed (e.g., code via PRs), but others (data changes, communications, decisions) go out without review. |
+| 2 | Every change I make to company state flows through a review mechanism — PRs for versioned state, approval flows for actions. The system halts autonomous work when the review backlog grows too large. |
+
+**Auditability**
+
+**12. Can every action I've taken be traced back to the session, the knowledge I used, and the human who authorized it?**
+
+| Score | Meaning |
+|-------|---------|
+| 0 | There is no audit trail. If something goes wrong, no one can reconstruct what I did or why. |
+| 1 | Some actions are logged, but the trail is incomplete — I can't always connect an outcome back to the session and knowledge that produced it. |
+| 2 | Every action is logged with full attribution: session ID, credentials used, knowledge accessed, human participants. Any outcome can be traced end-to-end. |
+
+**Work Management**
+
+**13. Am I driven by a structured work management system, or do I only act when a human prompts me?**
+
+| Score | Meaning |
+|-------|---------|
+| 0 | I only do things when someone types a message. If no one talks to me, nothing happens. |
+| 1 | I use a ticketing system (Jira, Linear, Asana, etc.) and can read issues, but a human must assign work to me and initiate each session. |
+| 2 | A ticketing system and scheduler drive my work end-to-end: issues are created on cadence or by triggers, I claim and progress them, log updates, and the company advances autonomously — humans review, steer, and decide. |
+
+---
+
+**Scoring**
+
+Add up your scores across all 13 questions. Note that question 9 is reverse-scored (0 is best).
+
+| Total | Assessment |
+|-------|-----------|
+| **0–10** | **No to limited AI usage.** |
+| **11–16** | **Partial AI automation.** |
+| **17–22** | **AI-fluent with room for more.** |
+| **23–26** | **A true AI-native company.** |
+
+---
+
+*This assessment is a snapshot. Run it periodically — after major infrastructure changes, onboarding new systems, or quarterly — to track progress. The goal is not a perfect score; it's knowing exactly where you stand and where to invest next.*
 
 ---
 
