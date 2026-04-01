@@ -762,7 +762,7 @@ Be honest. After scoring, tally your total and read the interpretation at the bo
 | Score | Meaning |
 |-------|---------|
 | 0 | I'm one person's personal AI assistant. No other AI session in the company shares my context, knowledge, or memory. |
-| 1 | There are multiple AI tools in the company, but they don't share knowledge or coordinate. Each is configured independently. |
+| 1 | I'm isolated — I know there are other AI tools in use across the company, but I cannot communicate with them or share context. Each operates independently. |
 | 2 | I'm part of a unified system where all AI sessions share the same versioned knowledge base, the same API layer, and can coordinate through structured mechanisms (announcements, shared issue tracking). |
 
 **Human Accountability**
@@ -772,8 +772,8 @@ Be honest. After scoring, tally your total and read the interpretation at the bo
 | Score | Meaning |
 |-------|---------|
 | 0 | My outputs are applied directly — or discarded entirely. There's no structured review step. |
-| 1 | Some outputs are reviewed (e.g., code via PRs), but others (data changes, communications, decisions) go out without review. |
-| 2 | Every change I make to company state flows through a review mechanism — PRs for versioned state, approval flows for actions. The system halts autonomous work when the review backlog grows too large. |
+| 1 | Some of my changes go through human review, but I'm not aware of a coherent policy defining which changes require it and which don't. |
+| 2 | There is a coherent policy defining which changes I can push autonomously vs. which require human review — and it is discoverable and enforced by code, not just convention. |
 
 **Auditability**
 
