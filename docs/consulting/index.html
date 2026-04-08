@@ -184,6 +184,14 @@
             line-height: 1.7;
         }
 
+        .inline-link {
+            color: rgba(255, 255, 255, 0.75);
+            text-decoration: none;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            transition: color 0.2s ease, border-color 0.2s ease;
+        }
+        .inline-link:hover { color: #fff; border-color: rgba(255, 255, 255, 0.5); }
+
         .steps {
             display: flex;
             gap: 1.5rem;
@@ -357,6 +365,13 @@
             <div class="divider"></div>
 
             <div class="section" style="--s: 3;">
+                <div class="section-label">About</div>
+                <p><a href="https://gpgroupcompany.com/cv.html" class="inline-link">Gilad Pagi Ph.D.</a> is a software engineering leader and AI engineer based in Los Angeles. Former Staff Engineer and Tech Lead at Google, where he built ML prediction systems serving billions of daily queries. He holds a Ph.D. in Mathematics from the University of Michigan and degrees from the Technion. Gilad brings deep experience in large-scale systems, production AI, and agentic architectures to every engagement.</p>
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="section" style="--s: 4;">
                 <div class="section-label">Pricing</div>
                 <p>Every engagement is scoped individually. Pricing is in USD and varies based on complexity, duration, and deliverables. Contact us for a proposal.</p>
             </div>
