@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BeanOS — One AI Brain For your company</title>
+    <meta name="description" content="One AI Brain For your company. Single brain, learns everything, does everything.">
+    <meta name="author" content="Gilad Pagi Ph.D.">
+
+    <meta property="og:title" content="BeanOS — One AI Brain For your company">
+    <meta property="og:description" content="Single brain, learns everything, does everything.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://beanos.ai/company-brain/">
+    <meta property="og:site_name" content="BeanOS">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="BeanOS — One AI Brain For your company">
+    <meta name="twitter:description" content="Single brain, learns everything, does everything.">
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-6V5Q1DW21X"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-6V5Q1DW21X');
+    </script>
+
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="marketing.css">
+</head>
+<body>
+
+<!-- shared bean creature symbol -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+        <symbol id="bean-creature" viewBox="0 0 240 220">
+            <rect class="leg" x="76"  y="158" width="26" height="28" rx="13"/>
+            <rect class="leg" x="138" y="158" width="26" height="28" rx="13"/>
+            <path class="body" d="M 28 96
+                                  C 28 38, 88 18, 118 50
+                                  C 121 54, 127 54, 130 50
+                                  C 160 18, 220 38, 220 96
+                                  C 220 152, 174 170, 124 170
+                                  C 74 170, 28 152, 28 96 Z"/>
+            <path class="wink wink-l" d="M 70 86 L 88 100 L 70 114"/>
+            <path class="wink wink-r" d="M 170 86 L 152 100 L 170 114"/>
+        </symbol>
+    </defs>
+</svg>
+
+<canvas id="particles-canvas" aria-hidden="true" role="presentation"></canvas>
+<div class="orb orb-1" aria-hidden="true"></div>
+<div class="orb orb-2" aria-hidden="true"></div>
+<div class="orb orb-3" aria-hidden="true"></div>
+<div class="orb orb-4" aria-hidden="true"></div>
+
+<div class="scroll-progress" id="scrollProgress"></div>
+
+<header class="topnav">
+    <a href="https://beanos.ai/" class="topnav-brand" aria-label="BeanOS home">
+        <svg class="topnav-bean bean-svg" viewBox="0 0 240 220" aria-hidden="true">
+            <use href="#bean-creature"/>
+        </svg>
+        <span class="topnav-brand-name">BeanOS.ai</span>
+    </a>
+    <nav class="topnav-links" aria-label="Primary">
+        <a href="#how">How it works</a>
+        <a href="#cta" class="pill">Talk to us</a>
+    </nav>
+</header>
+
+<!-- ====================================================================
+     HERO
+     ==================================================================== -->
+<section class="hero" aria-labelledby="hero-title">
+    <div class="hero-text">
+        <span class="hero-eyebrow eyebrow"><span class="dot" aria-hidden="true"></span>BeanOS · v3</span>
+        <h1 class="hero-title" id="hero-title">
+            <span class="grad gradient-text">One</span>
+            <span class="grad gradient-blue">AI Brain</span><br>
+            <span class="grad gradient-text">For your company.</span>
+        </h1>
+        <p class="hero-sub">
+            Single brain, learns everything, does everything.
+        </p>
+        <div class="hero-actions">
+            <a class="btn btn-primary" href="#how">See how <span class="arrow">→</span></a>
+            <a class="btn btn-ghost" href="mailto:gpagi@beanos.ai">Talk to a human</a>
+        </div>
+    </div>
+
+    <div class="hero-figure" aria-hidden="true">
+        <div class="hero-bean-frame">
+            <div class="ring"></div>
+            <div class="ring ring-2"></div>
+            <div class="ring-label">
+                <svg viewBox="0 0 100 100">
+                    <defs>
+                        <path id="circle-text" d="M 50,50 m -42,0 a 42,42 0 1,1 84,0 a 42,42 0 1,1 -84,0"/>
+                    </defs>
+                    <text font-size="3" letter-spacing="0.42em" fill="currentColor">
+                        <textPath href="#circle-text" startOffset="0">BEANOS · COMPANY BRAIN · ON CLOUD · SECURE · </textPath>
+                    </text>
+                </svg>
+            </div>
+            <svg class="bean-svg bobs bean-instance" viewBox="0 0 240 220" role="img" aria-label="The Bean creature mascot">
+                <use href="#bean-creature"/>
+            </svg>
+        </div>
+    </div>
+</section>
+
+<main id="how">
+
+<!-- ====================================================================
+     SECTION 01 — Unified Brain
+     ==================================================================== -->
+<section class="story" aria-labelledby="brain-title">
+    <div class="story-grid flip">
+        <div class="story-figure">
+            <figure class="figure-card diagram-card" data-diagram="brain">
+                <figcaption class="figure-card-head">
+                    <span class="head-dot"></span>
+                    <span>fig. 01 · /brain</span>
+                </figcaption>
+                <div class="figure-card-body">
+                    <div class="diagram diagram-brain-only" role="img" aria-label="Unified Brain — one memory holding the database, knowledge base, and workflow registry, shared by every bean.">
+                        <div class="diag-block diag-brain">
+                            <div class="diag-block-title">Unified Brain</div>
+                            <div class="diag-pills">
+                                <span class="diag-pill">Database</span>
+                                <span class="diag-pill">Knowledge</span>
+                                <span class="diag-pill">Workflows</span>
+                            </div>
+                        </div>
+                        <div class="diag-row diag-containers">
+                            <div class="diag-container">
+                                <svg class="bean-svg diag-bean" viewBox="0 0 240 220"><use href="#bean-creature"/></svg>
+                                <span>bean</span>
+                            </div>
+                            <div class="diag-container">
+                                <svg class="bean-svg diag-bean" viewBox="0 0 240 220"><use href="#bean-creature"/></svg>
+                                <span>bean</span>
+                            </div>
+                            <div class="diag-container">
+                                <svg class="bean-svg diag-bean" viewBox="0 0 240 220"><use href="#bean-creature"/></svg>
+                                <span>bean</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="figure-caption">One brain · many beans <span class="figure-zoom">↗ click to expand</span></div>
+            </figure>
+        </div>
+
+        <div class="story-copy">
+            <div class="story-counter"><b>01</b></div>
+            <h2 class="story-title" id="brain-title">Unified <span class="grad">Brain.</span></h2>
+            <p class="story-lede">One memory that keeps learning. Same source of truth.</p>
+        </div>
+    </div>
+</section>
+
+<!-- ====================================================================
+     SECTION 02 — Cloud containers
+     ==================================================================== -->
+<section class="story" aria-labelledby="cc-title">
+    <div class="story-grid">
+        <div class="story-figure">
+            <figure class="figure-card diagram-card" data-diagram="containers">
+                <figcaption class="figure-card-head">
+                    <span class="head-dot"></span>
+                    <span>fig. 02 · /containers</span>
+                </figcaption>
+                <div class="figure-card-body">
+                    <div class="diagram diagram-containers-flow" role="img" aria-label="Ephemeral cloud containers spin up per task, do the job, and shut down. Secrets are injected by the kernel.">
+                        <div class="diag-cc-stage">
+                            <div class="diag-cc-cloud">
+                                <span class="diag-block-title">Cloud</span>
+                                <div class="diag-cc-row">
+                                    <div class="diag-cc-bean diag-cc-bean-spinup">
+                                        <svg class="bean-svg diag-bean" viewBox="0 0 240 220"><use href="#bean-creature"/></svg>
+                                        <span>spin up</span>
+                                    </div>
+                                    <div class="diag-cc-bean diag-cc-bean-active">
+                                        <svg class="bean-svg diag-bean" viewBox="0 0 240 220"><use href="#bean-creature"/></svg>
+                                        <span>working</span>
+                                    </div>
+                                    <div class="diag-cc-bean diag-cc-bean-spindown">
+                                        <svg class="bean-svg diag-bean" viewBox="0 0 240 220"><use href="#bean-creature"/></svg>
+                                        <span>shut down</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="diag-cc-kernel">
+                                <span class="diag-block-title">Kernel</span>
+                                <div class="diag-pills">
+                                    <span class="diag-pill diag-pill-orange">Secrets</span>
+                                    <span class="diag-pill diag-pill-orange">Heuristics</span>
+                                    <span class="diag-pill diag-pill-orange">Audit</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="figure-caption">Ephemeral. On demand. <span class="figure-zoom">↗ click to expand</span></div>
+            </figure>
+        </div>
+
+        <div class="story-copy">
+            <div class="story-counter"><b>02</b></div>
+            <h2 class="story-title" id="cc-title">Cloud <span class="grad">containers.</span></h2>
+            <p class="story-lede">Ephemeral beans, spun up per task. No laptops. No persistent VMs.</p>
+        </div>
+    </div>
+</section>
+
+<!-- ====================================================================
+     HIGHLIGHT — Best employee
+     ==================================================================== -->
+<section class="highlight" aria-labelledby="hl-title">
+    <div class="highlight-card">
+        <div class="highlight-bean" aria-hidden="true">
+            <svg class="bean-svg bobs" viewBox="0 0 240 220"><use href="#bean-creature"/></svg>
+        </div>
+        <div class="highlight-text">
+            <p class="highlight-eyebrow">A new kind of employee</p>
+            <h2 class="highlight-title" id="hl-title">
+                Bean is the <span class="grad">best employee</span> you'll ever have.
+            </h2>
+            <ul class="highlight-points">
+                <li><span class="hl-bullet">●</span><b>Remembers everything.</b></li>
+                <li><span class="hl-bullet">●</span><b>Keeps getting better.</b></li>
+                <li><span class="hl-bullet">●</span><b>Works 24/7.</b></li>
+                <li><span class="hl-bullet">●</span><b>Unlimited capacity.</b></li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<!-- ====================================================================
+     SECTION 03 — Meet you where you are
+     ==================================================================== -->
+<section class="story" aria-labelledby="meet-title">
+    <div class="story-grid flip">
+        <div class="story-figure">
+            <figure class="figure-card diagram-card" data-diagram="channels">
+                <figcaption class="figure-card-head">
+                    <span class="head-dot"></span>
+                    <span>fig. 03 · /channels</span>
+                </figcaption>
+                <div class="figure-card-body">
+                    <div class="diagram diagram-channel" role="img" aria-label="Bean meets you on every channel — chat, email, voice, terminal — and learns from every interaction.">
+                        <div class="diag-actor diag-actor-human">
+                            <svg viewBox="0 0 32 32" class="diag-actor-ico"><circle cx="16" cy="10" r="5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M5 28c2-6 7-9 11-9s9 3 11 9" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+                            <span>You</span>
+                        </div>
+                        <ul class="diag-stream diag-stream-bidirectional">
+                            <li style="--i:0">💬 Chat</li>
+                            <li style="--i:1">📨 Email</li>
+                            <li style="--i:2">🎙️ Voice</li>
+                            <li style="--i:3">⌨️ Terminal</li>
+                        </ul>
+                        <div class="diag-actor diag-actor-bean">
+                            <svg class="bean-svg diag-actor-bean-svg" viewBox="0 0 240 220"><use href="#bean-creature"/></svg>
+                            <span>Bean</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="figure-caption">Same agent, every channel <span class="figure-zoom">↗ click to expand</span></div>
+            </figure>
+        </div>
+
+        <div class="story-copy">
+            <div class="story-counter"><b>03</b></div>
+            <h2 class="story-title" id="meet-title">Meet you <span class="grad">where you are.</span></h2>
+            <p class="story-lede">Chat, email, voice, terminal. Same bean. Same memory. Starts learning from day one.</p>
+            <div class="story-chapters">
+                <div class="chapter"><h4>Ask anywhere</h4><p>Any channel. Full context.</p></div>
+                <div class="chapter"><h4>Bean replies</h4><p>In the same place you asked.</p></div>
+                <div class="chapter"><h4>Plugs in</h4><p>Connects to existing company systems.</p></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ====================================================================
+     SECTION 04 — Every interface, ever learning
+     ==================================================================== -->
+<section class="story" aria-labelledby="loop-title">
+    <div class="story-grid">
+        <div class="story-figure">
+            <figure class="figure-card diagram-card" data-diagram="loop">
+                <figcaption class="figure-card-head">
+                    <span class="head-dot"></span>
+                    <span>fig. 04 · /loop</span>
+                </figcaption>
+                <div class="figure-card-body">
+                    <div class="diagram diagram-loop" role="img" aria-label="The autonomous loop: a small Bean kicks off recurring activities that flow into a larger, better Bean.">
+                        <div class="diag-loop-bean diag-loop-bean-small">
+                            <svg class="bean-svg" viewBox="0 0 240 220"><use href="#bean-creature"/></svg>
+                            <span>Bean</span>
+                        </div>
+                        <ul class="diag-loop-tasks">
+                            <li style="--i:0">🐛 Fix bugs</li>
+                            <li style="--i:1">✨ Improve yourself</li>
+                            <li style="--i:2">📚 Learn from sessions</li>
+                            <li style="--i:3">🚀 Update models</li>
+                            <li style="--i:4">⚙️ Tune workflows</li>
+                            <li style="--i:5">💰 Find savings</li>
+                        </ul>
+                        <div class="diag-loop-bean diag-loop-bean-large">
+                            <svg class="bean-svg bobs" viewBox="0 0 240 220"><use href="#bean-creature"/></svg>
+                            <span>Better Bean</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="figure-caption">Ever improving. <span class="figure-zoom">↗ click to expand</span></div>
+            </figure>
+        </div>
+
+        <div class="story-copy">
+            <div class="story-counter"><b>04</b></div>
+            <h2 class="story-title" id="loop-title">Ever <span class="grad">Improving.</span></h2>
+            <p class="story-lede">While you sleep, Bean works on Bean.</p>
+            <div class="story-chapters">
+                <div class="chapter"><h4>Self-reflection</h4><p>Bean self reflects and improves itself overnight.</p></div>
+                <div class="chapter"><h4>Auditable memory</h4><p>Memory can be audited and edited.</p></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ====================================================================
+     CLOSER — Secure. Governed. Observable.
+     ==================================================================== -->
+<section class="closer" aria-labelledby="closer-title">
+    <div class="closer-card">
+        <div class="closer-figure" aria-hidden="true">
+            <div class="diagram diagram-anti">
+                <div class="diag-anti-stage">
+                    <div class="diag-anti-label">No more laptops with secrets</div>
+                    <div class="diag-laptop">
+                        <div class="diag-laptop-screen">
+                            <span class="diag-anti-token diag-anti-token-1">📄 .env</span>
+                            <span class="diag-anti-token diag-anti-token-2">🔑 keys</span>
+                            <span class="diag-anti-token diag-anti-token-3">✓ "works for me"</span>
+                        </div>
+                        <div class="diag-laptop-base"></div>
+                    </div>
+                    <svg class="diag-anti-cross" viewBox="0 0 200 200" aria-hidden="true">
+                        <line x1="20" y1="20" x2="180" y2="180" />
+                        <line x1="180" y1="20" x2="20" y2="180" />
+                    </svg>
+                </div>
+            </div>
+        </div>
+        <div class="closer-text">
+            <p class="closer-eyebrow">The kernel does the hard part</p>
+            <h2 class="closer-title" id="closer-title">
+                <span class="grad">Secure.</span> <span class="grad">Governed.</span> <span class="grad">Observable.</span>
+            </h2>
+            <p class="closer-sub">
+                The kernel owns the secrets, gates the traffic, and writes the audit trail. Bean does the work. You lead.
+            </p>
+        </div>
+    </div>
+</section>
+
+</main>
+
+<!-- ====================================================================
+     CTA
+     ==================================================================== -->
+<section class="cta" id="cta" aria-labelledby="cta-title">
+    <div class="cta-card">
+        <p class="cta-eyebrow">Ready when you are</p>
+        <h2 class="cta-title" id="cta-title"><span class="grad gradient-text">Want this</span><br><span class="grad gradient-blue">for your company?</span></h2>
+        <p class="cta-sub">
+            BeanOS is in private beta. Small group of teams, ready to run AI as infrastructure.
+        </p>
+        <a class="btn btn-primary" href="mailto:gpagi@beanos.ai?subject=BeanOS%20—%20I%20want%20a%20demo">
+            Email gpagi@beanos.ai <span class="arrow">→</span>
+        </a>
+    </div>
+</section>
+
+<!-- Diagram lightbox -->
+<div class="lightbox" id="lightbox" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Diagram detail">
+    <button class="lightbox-close" type="button" aria-label="Close">×</button>
+    <div class="lightbox-stage" id="lightboxStage"></div>
+</div>
+
+<footer class="site-footer">
+    <svg class="footer-bean bean-svg" viewBox="0 0 240 220" aria-hidden="true">
+        <use href="#bean-creature"/>
+    </svg>
+    <p>&copy; 2026 <a href="https://gpgroupcompany.com/cv.html">Gilad Pagi Ph.D.</a> · Built on BeanOS · <a href="https://beanos.ai/">BeanOS.ai</a></p>
+</footer>
+
+<script src="marketing.js" defer></script>
+</body>
+</html>
